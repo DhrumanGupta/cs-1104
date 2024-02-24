@@ -1,0 +1,110 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 2},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 2}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+    \item (a) The general form of a three-prime $n$ is a number with the factors: $\left\{ 1, a, n \right\}$. As $a$ is a factor, there must be another corresponding factor $b$, s.t $a * b = n$. However, we only want solutions where $a$ is a factor. Therefore, $a = b$. $a * a = n \rightarrow a = \sqrt{n}$. \\
+    \\ 
+    Hence, the factors to a three-prime are $\left\{ 1, \sqrt{n}, n \right\}$. However, $\sqrt{n}$ is not always an integer. Thus, squaring both sides, we get that the factors of a three-prime, $n^2$, are $\left\{ 1, n, n^2 \right\}$.\\
+    \\
+    Proof: Assume there is a factor, $a$, such that $\left\{ 1, a, n^2 \right\}$ are the only factors of $n^2$, such that $a \neq n$. From the argument above, there must be another factor $b$, s.t $a * b = n^2$. So, $b$ must be a factor of $n$ too. This is a contradiction.\\
+    \\
+    $\therefore$ By proof by contradiction, every three-prime number $n^2$ must only have the factors $\left\{ 1, n, n^2 \right\}$. \\
+    \\ 
+    (b) Have to prove that:
+    \begin{center}
+        $pq + 1 = n^2 \Leftrightarrow |p-q| = 2$ where p, q are primes
+    \end{center}
+    Let $p, q$ be twin primes. Proving that if $p, q$ are twin primes, then $pq + 1$ is a square, i.e $|p-q| = 2 \rightarrow pq + 1 = n^2$:\\
+    \\ 
+    Pick $a = \max(p, q)$, and $b=min(p, q)$ i.e $a > b$, and, $a = b+2$. It is thus given that $a, b$ are twin primes too. So, now expanding $ab + 1$: 
+    \begin{sollist}
+        \item $a(a+2) + 1$
+        \item $a^2 + 2a + 1$
+        \item $(a+1)^2$
+    \end{sollist}
+
+    $\therefore$ $ab + 1$ is a square $\implies$ $pq + 1$ is a square. \\
+    \\  
+    Proving backwards, i.e $pq + 1 = n^2 \rightarrow |p-q| = 2$:
+    \begin{sollist}
+        \item $pq = n^2 - 1$
+        \item $pq = (n+1)(n-1)$
+        \item $p = n+1$ and $q = n-1$ (or vice versa)
+    \end{sollist}
+
+    Now, $|p-q|$ = $|n+1 - n+1|$ = 2. \\
+    \\
+    $\therefore$ $pq + 1 = n^2 \Leftrightarrow |p-q| = 2$ where p, q are primes. \\
+
+    \item (a) \textbf{Strong Induction}: $P(i)\ \text{for}\ i\ 1 \leq i \leq k \rightarrow P(k + 1)$\\
+    $\therefore P(1) \implies P(n)\ \forall n \in \mathbb{N}$  \\
+    \\
+    \textbf{Weak Induction}: $P(k) \rightarrow P(k + 1)$  \\
+    $\therefore P(1) \implies P(n)\ \forall n \in \mathbb{N}$  \\
+    \\
+    If $P(n)$ is true by strong induction, we know that $P(i)\ \text{for}\ i\ 1 \leq i \leq k \rightarrow P(k + 1)$. This also means that $P(k)$ is true when $P(k+1)$ is true. That statement is the induction hypothesis of weak induction, and thus $P(n)$ is true by weak induction as well. \\
+    \\
+    Hence, if $P(n)$ holds by strong induction, it must hold by weak induction as well.\\ 
+    \\
+    (b) Going by definitions from part (a):\\
+    \\
+    Assume $P(n)$ is a proposition that holds by weak induction over $\mathbb{N}$. We know that $P(k) \rightarrow P(k + 1)$, and $P(1)$. By definition, this also means $P(k)$. \\ 
+
+    
+
+    
+\end{enumerate}
+
+
+\section{$\neg$Straightforward}
+
+\end{document}

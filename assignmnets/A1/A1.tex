@@ -1,0 +1,430 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 1},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 1}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+
+    \begin{enumerate}
+        \item
+        (a) Negation of a statement $A$ is $\neg A$. So the negation is:
+        \begin{sollist}
+\item$
+\neg\left(\forall \epsilon > 0 \left(\exists \delta > 0\left(\forall x \in \mathbb{R}\left(|x-c| < \delta \implies |f(x)-f(c)| < \epsilon\right)\right)\right)\right) 
+$ \\
+
+\item$
+\exists \epsilon > 0 \left(\neg \left(\exists \delta > 0\left(\forall x \in \mathbb{R}\left(|x-c| < \delta \implies |f(x)-f(c)| < \epsilon\right)\right)\right)\right)
+$\\
+
+\item $\exists \epsilon > 0 \left(\forall \delta > 0\left(\neg\left(\forall x \in \mathbb{R}\left(|x-c| < \delta \implies |f(x)-f(c)| < \epsilon\right)\right)\right)\right)$\\
+
+\item $\exists \epsilon > 0 \left(\forall \delta > 0\left(\exists x \in \mathbb{R}\left(\neg\left(|x-c| < \delta \implies |f(x)-f(c)| < \epsilon\right)\right)\right)\right)$\\
+
+\item $\exists \epsilon > 0 \left(\forall \delta > 0\left(\exists x \in \mathbb{R}\left(\neg\left(|x-c| \geq \delta \lor |f(x)-f(c)| < \epsilon\right)\right)\right)\right)$\\
+
+\item $\exists \epsilon > 0 \left(\forall \delta > 0\left(\exists x \in \mathbb{R}\left(|x-c| < \delta \land |f(x)-f(c)| \geq \epsilon\right)\right)\right)$\\
+        
+        \end{sollist}
+        \\  
+        \\  
+        (b) Let $P(a, b)$ be the proposition that a and b are co-prime. Then,
+        $$
+        \mathbb{Q} \coloneqq \{\frac{a}{b}\ |\ P(a, b) \land b \ne 0 \ , \forall a, b \in \mathbb{Z}\}
+        $$ 
+
+
+    \item (a)
+ \begin{center}
+ Truth table for $p \leftrightarrow q$ \\
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                $p$ & $q$ & $p \rightarrow q$ & $q \rightarrow p$ & $p \leftrightarrow q$ \\ \hline
+                T & T & T & T & T \\ \hline
+                T & F & F & T & F \\ \hline
+                F & T & T & F & F \\ \hline
+                F & F & T & T & T \\ \hline
+            \end{tabular}
+
+            \vspace{0in}
+
+
+             Truth table for $\neg \left(p \oplus q\right)$ \\
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                $p$ & $q$ & $p \oplus q$ & $\neg \left(p \oplus q\right)$ \\ \hline
+                T & T & F & T \\ \hline
+                T & F & T & F \\ \hline
+                F & T & T & F \\ \hline
+                F & F & F & T \\ \hline
+            \end{tabular}
+            \vspace{0in}
+
+
+Truth table for $\neg \left(p \oplus q\right)$ and $p \leftrightarrow q$ \\
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                $p$ & $q$ & $p \leftrightarrow q$ & $\neg \left(p \oplus q\right)$ \\ \hline
+                T & T & T & T \\ \hline
+                T & F & F & F \\ \hline
+                F & T & F & F \\ \hline
+                F & F & T & T \\ \hline
+            \end{tabular}
+        \end{center}
+
+        \therefore \ $p \leftrightarrow q$ \equiv $\neg \left(p \oplus q\right)$
+        
+        \vspace{2in}
+
+        (b)
+ 
+ \begin{center}
+           \begin{tabular}{|c|c|c|c|c|c|c|}
+           \hline
+p & q & r & $p \lor q$ & $\neg p \lor r$ & $(p \lor q) \land (\neg p \lor r)$ & $(p \lor q) \land (\neg p \lor r) \rightarrow (q \lor r)$ \\
+\hline
+T & T & T & T & T & T & T \\ \hline
+T & T & F & T & F & F & T \\ \hline
+T & F & T & T & T & T & T \\ \hline
+T & F & F & T & F & F & T \\ \hline
+F & T & T & T & T & T & T \\ \hline
+F & T & F & T & T & T & T \\ \hline
+F & F & T & F & T & F & T \\ \hline
+F & F & F & F & T & F & T \\ \hline
+\end{tabular}
+
+        \end{center}
+
+        \therefore \ $(p \lor q) \land (\neg p \lor r) \rightarrow (q \lor r)$ is a tautology \\
+
+        \item (a) $\exists x \left(P(x) \land Q(x)\right) \lor \neg R(x)$ \\
+        Here, the first $x$ is bound, whereas the second $x$ is free. \\
+        \vspace{0in}\\
+        \textbf{Reasoning:} As the quantifiers $\exists$ and $\forall$ have higher precedence than all logical operators from propositional calculus, the $\exists$ in the statement only bounds the first $x$. Thus, the second $x$ (using for $\neg R(x)$ remains free)
+        \\
+        
+        (b) $\forall z \ \exists x \ \left(\sqrt{x} = y\right)$ \\
+        Here, $z$ and $x$ are bound, whereas $y$ is free. \\
+        \vspace{0in}\\
+        \textbf{Reasoning:} The quantifiers $\exists$ and $\forall$ are placed on $x$ and $z$ respectively, bounding them. However, $y$ is not bounded and is thus free.
+
+        \\
+
+\item (a)\\
+\textbf{Statement:} If Adwaiya and Gautam volunteer for teaching the course, they will not get paid.\\
+
+We first need to define some propositions:\\
+$P(a) \coloneqq a$ volunteers for teaching the course \\
+$Q(a) \coloneqq a$ gets paid\\
+
+\textbf{Formal Logic:} $\left(P(Adwaiya) \land P(Gautam)\right) \rightarrow \left(\neg Q(Adwaiya) \land \neg Q(Gautam)\right)$\\
+
+
+\textbf{Inverse:} If Adwaiya or Gautam don't volunteer for teaching the course, Adwaiya or Gautam will get paid\\
+\textbf{Formal Logic:} $\left(\neg P(Adwaiya) \lor \neg P(Gautam)\right) \rightarrow \left(Q(Adwaiya) \lor Q(Gautam)\right)$\\
+
+\textbf{Converse:} If neither Adwaiya nor Gautam get paid, then both have volunteered for teaching the course\\
+\textbf{Formal Logic:} $\left(\neg Q(Adwaiya) \land \neg Q(Gautam)\right) \rightarrow \left(P(Adwaiya) \land P(Gautam)\right)$\\
+
+\textbf{Contrapositive:} If Adwaiya or Gautam get paid, then Adwaiya or Gautam are not a volunteer for teaching the course.\\
+\textbf{Formal Logic:} $\left(Q(Adwaiya) \lor Q(Gautum)) \rightarrow (\neg P(Adwaiya) \lor \neg P(Gautam)\right)$\\
+
+(b)\\
+\textbf{Statement:} Unless you attend DSes and office hours, you won’t have a good time in the course and even an all-nighter would not save you from the final exam.\\
+
+We need to first define some propositions:\\ 
+$P \coloneqq $ you attend DSes and office hours \\
+$Q \coloneqq $ you have a good time in the course \\
+$R \coloneqq $ all-nighter would save you from the final exam \\ 
+
+
+This statement can be written in an if-then format as follows: \\
+If you do not attend DSes and office hours, then, you won't have a good time in the course and an all-nighter would not save you from the final exam
+
+\textbf{Formal Logic:} $\neg P \rightarrow \left(\neg Q \land \neg R\right)$\\
+
+
+\textbf{Inverse:} If you attend DSes and office hours, you will have a good time in the course or an all-nighter would save you from the final exam.\\
+\textbf{Formal Logic:} $P \rightarrow \left(Q \lor R\right)$\\
+
+
+\textbf{Converse:} If you do not have a good time in the course and an all-nighter would not save you from the final exam, then, you do not attend DSes and office hours\\
+\textbf{Formal Logic:} $\left(\neg Q \land \neg R\right) \rightarrow \neg P$\\
+
+\textbf{Contrapositive:} If you have a good time in the course or an all-nighter would save you from the final exam, then, you attend DSes and office hours.\\
+\textbf{Formal Logic:} $\left(Q \lor R\right) \rightarrow P$\\
+
+\item (a) $A \rightarrow \neg A$
+\begin{sollist}
+    \item $\neg A \lor \neg A$ (by Conditional Statement Laws)
+    \item $\neg A$ (by Idempotent laws)
+\end{sollist}
+    
+    This statement is both in CNF and DNF form. This is satisfiable. The statement is true when $A$ is $false$
+    \\
+    \\
+    (b) $A \oplus B \rightarrow A \land \neg B$
+\begin{sollist}
+    \item $\neg \left(A \oplus B\right) \lor \left( A \land \neg B\right)$ (by Conditional Statement Laws)
+    \item $(A \leftrightarrow B) \lor (A \land \neg B)$ (by result from 2a)
+    \item $(A \land B) \lor (\neg A \land \neg B) \lor (A \land \neg B)$ (by Conditional Statement Laws)
+    \item $(A \land B) \lor (A \land \neg B) \lor (\neg A \land \neg B) $ (by Associative Laws)
+    \item $((A \lor (A \land \neg B)) \land (B \lor (A \land \neg B))) \lor (\neg A \land \neg B)$ (by Distributive Laws)
+    \item $(((A \lor A) \land (A \lor \neg B)) \land ((B \lor A) \land (B \lor \neg B))) \lor (\neg A \land \neg B)$ (by Distributive Laws)
+    \item $((true \land (A \lor \neg B)) \land ((B \lor A) \land true)) \lor (\neg A \land \neg B)$ (by Idempotent laws)
+    \item $((A \lor \neg B) \land (B \lor A))    \lor (\neg A \land \neg B)$ (by Identity laws)
+    \item $((A \lor \neg B) \lor (\neg B \land \neg A)) \land ((B \lor A) \lor (\neg B \land \neg A))$ (by Distributive Law)
+    \item $((A \lor \neg B \lor \neg B) \land (A \lor \neg B \lor \neg A)) \land ((B \lor A \lor \neg B) \land (B \lor A \lor \neg A))$ (by Distributive Law)
+    \item $(A \lor \neg B) \land (A \lor \neg B) \land (true) \land (true)$ (by negation and Idempotent law)
+    \item $(A \lor \neg B) \land (A \lor \neg B)$ (by Identity laws)
+    \item $A \lor \neg B$ (by Idempotent laws)
+\end{sollist}
+This is in both, CNF and DNF. This is satisfiable. For $A$ is $true$ and $B$ is $false$, this statement holds.
+\\  
+\\
+(c) $A \oplus (B \land C) \rightarrow C \land A$
+\begin{sollist}
+    \item $(A \land \neg(B \land C)) \lor (\neg A \land (B \land C)) \rightarrow C \land A$ (expanding $\oplus$ in terms of $\land, \lor, \neg$)
+    \item $(A \land (\neg B \lor \neg C)) \lor (\neg A \land B \land C) \rightarrow C \land A$ (by De Morgan's Law)
+    \item $\neg((A \land (\neg B \lor \neg C)) \lor (\neg A \land B \land C)) \lor (C \land A)$ (by Conditional Statement Laws)
+    \item $(\neg A \lor (B \land C)) \land (A \lor \neg B \lor \neg C) \lor (C \land A)$ (by De Morgan's Law and Double negation law)
+    \item $((\neg A \land (A \lor \neg B \lor \neg C)) \lor ((B \land C) \land (A \lor \neg B \lor \neg C))) \lor (C \land A)$ (by Distributive Law)
+    \item $((\neg A \land A) \lor (\neg A \land \neg B) \lor (\neg A \land \neg C)) \lor ((B \land C \land A) \lor (B \land C \land \neg B) \lor (B \land C \land \neg C)) \lor (C \land A)$ (by Distributive Law)
+    \item $((false) \lor (\neg A \land \neg B) \lor (\neg A \land \neg C)) \lor ((B \land C \land A) \lor (false) \lor (false)) \lor (C \land A)$ (by Negation and Idempotent Law)
+    \item $(\neg A \land \neg B) \lor (\neg A \land \neg C) \lor (B \land C \land A) \lor (C \land A)$
+
+\end{sollist}
+
+This is in CNF.\\
+This statement is satisfiable. It is true for $A = true,\ B = false,\ C = true$.\\ 
+
+\item (a) We first need to define some propositions:\\
+$P \coloneqq$ Santripta is tired\\
+$Q \coloneqq$ Monu is tired\\
+$R \coloneqq$ Saptarshi is asleep\\
+\\
+Need to prove that $(P \lor \neg Q),\ (\neg P \lor R) \vdash (\neg Q \lor R)$
+\begin{center}
+
+$
+\dfrac{
+P \lor \neg Q, \neg P \lor R
+}{
+\neg Q \lor R
+}
+$:(RES)
+\end{center}
+$\therefore$ Using resolution, it is shown that $\neg Q \lor R$ holds if $P \lor \neg Q$ and $\neg P \lor R$ hold.\\
+\\ 
+(b) We first need to define some propositions:\\
+$P \coloneqq$ it is wintry\\
+$Q \coloneqq$ Fiona has her jacket\\
+$R \coloneqq$ Fiona catches a cold\\
+\\
+Need to prove that $(\neg P \lor Q),\ (\neg Q \lor \neg R),\ (P \lor \neg R) \vdash \neg R$
+\begin{center}
+$
+\dfrac{
+    \dfrac{
+    (\neg P \lor Q), (P \lor \neg R)
+    }{Q \lor \neg R}: (RES), (\neg Q \lor \neg R)
+}{\neg R \lor \neg R}: (RES)
+$
+\end{center}
+$\implies \neg R$ holds by Idempotent laws.\\
+This implies that "Fiona does not catch a cold.\\
+\\ 
+\item (i) This statement is true. For $x = 1$, $\forall y, P(x, y)$ holds, as $1$ divides every number. As $\forall y P(1, y)$ holds, the former statement is also true.\\
+(ii) False. There is no number that is divisible by all other possible numbers. For example, $P(x, y)$ does not hold for any $x > y$. For $x=0$, $P(x, y)$ holds $\forall y, y \neq 0$.\\
+(iii) False. For $a = -b, b \neq 0$, $(P(a, b) \land P(b, a)) \rightarrow (x = y)$ does not hold.\\
+(iv) Statement (iii) would be true. As the domain would be restricted to only positive numbers, the only solution remaining would be $a = b$, as $a = -b$ would be outside the domain.\\
+(v) $\forall x (\exists y, z (P(y, x) \land P(z, x) \land (y \neq z))$\\ 
+\\
+\item (a) Need to prove $\forall x (P(x) \rightarrow \neg Q(x)), (\exists x (Q(x) \land R(x))) \vdash \exists x (\neg P(x) \land Q(x))$
+\begin{mathpar}
+\inferrule*[Right = $(\exists i)$]{
+    \inferrule*[Right = $(MT{,} \land i)$]{
+        \inferrule*[Right = $(\land e_1)$]{
+            \inferrule*[Right = $(\exists e)$]{
+                \exists x (Q(x) \land R(x))
+            }{
+                Q(a) \land R(a)
+            }
+        }{
+            Q(a)
+        }
+        \\
+        \inferrule*[Right = $(\forall e)$]{
+            \forall x (P(x) \rightarrow \neg Q(x))
+        }{
+            P(a) \rightarrow \neg Q(a)
+        }
+    }{
+        \neg P(a) \land Q(a)
+    }
+}{
+    \therefore \ \exists x (\neg P(x) \land Q(x))
+}
+\end{mathpar}
+
+\\ 
+
+(b) Need to prove $((\exists x \ P(x)) \rightarrow (\forall x \ \neg Q(x))) \vdash ((\exists x \ Q(x)) \rightarrow (\forall x \ \neg P(x)))$
+\begin{mathpar}
+\inferrule*[Right=$(\exsits i)$]{
+\inferrule*[Right=$(\forall i)$]{
+\inferrule*[Right = $(\rightarrow i)$]{
+    \inferrule*[Right = $(MT)$]{
+        \inferrule*[Right = $(\forall e)$]{
+            \inferrule*[Right = $(\exists e)$]{
+                (\exists x P(x)) \rightarrow (\forall x \neg Q(x))
+            }{
+                P(a) \rightarrow (\forall x \neg Q(x))
+            }
+        }{
+            P(a) \rightarrow \neg Q(a) \\ Q(a)\ \ \tt (let)
+        }
+    }{
+        \neg P(a) \\ Q(a)
+    }
+}{
+    Q(a) \rightarrow \neg P(a)
+}
+}{
+Q(a) \rightarrow (\forall x \neg P(x))
+}
+}{
+\therefore \ (\exists x\ Q(x)) \rightarrow (\forall x\ \neg P(x))
+}
+\end{mathpar}
+
+\item (a)
+\begin{minted}{prolog}
+cousin(c, z) :- (
+    mother(m, c), mother(n, z), (sister(m, n); sister(n, m));
+    father(a, c), father(b, z), (brother(a, b); brother(b, a));
+    father(p, c), mother(q, z), (brother(p, q); sister(q, p))
+).
+\end{minted}
+(b) The solution of $cousin(a, C)$ are $C = y$ and $C = z$
+
+
+\end{enumerate}
+
+
+\section{$\neg$Straightforward}
+
+    \begin{enumerate}
+        \item 
+$$
+ConnectedCity(A, B) = CityRoad(A, B) \lor \exists Y ((Y \neq B) \land CityRoad(A, Y) \land ConnectedCity(Y, B))
+$$
+\textbf{Reasoning:} If CityRoad(A, B) holds, ConnectedCity(A, B) is true evidently, as there is a connection of roads between cities A and B. \\
+If there is no direct road, then it becomes a pathfinding solution. The predicate tries to find a route from A to another city - Y (a node) if and only if the city has a valid road (an edge) from Y to B. Moreover, to prevent a cyclic resolution, the condition $Y \neq B$ exists. 
+
+\item (a) For statement $s \coloneqq P \lor F$, $s \equiv s^*$.\\
+\textbf{Reasoning:} $s^* = P \land T$ (by replacing $\lor$ with $\land$ and $F$ with $T$).\\
+$s \equiv P$ (by Identity Law)\\
+$s^* \equiv P$ (by Identity Law)\\
+\therefore\ $s \equiv s^*$\\
+\\
+(b) As $s$ is a compound statement written only with $\land, \lor, \neg$, $s^*$ is defined by replacing $\land$ with $\lor$, $\lor$ with $\land$, and $T$ with $F$. Thus, $(s^*)^*$ would be repeating the process with $s^*$. Then, the logical connectors would change from $\land$ to $\lor$ to $\land$, and so on. This, in turn, would lead to the original statement.\\
+    
+\\
+(c) There exists at least one student who does not live on campus and does not have a friend who lives on campus, and attends CS-1104.\\
+\\ 
+\textbf{Reasoning:} First, let's define some propositions:\\
+$C(s) \coloneqq s$ lives on campus\\
+$F(s) \coloneqq s$ has a friend who lives on campus\\
+$D(s) \coloneqq s$ attends CS-1104\\
+\\
+The statement can be modelled by
+$$
+\forall s\left((C(s) \land F(s)) \rightarrow D(s)\right)
+$$
+$$
+\implies \forall s \left((\neg C(s) \lor \neg F(s)) \lor D(s)\right)
+$$
+The dual of this statement would thus be:
+$$
+\exists s \left((\neg C(s) \land \neg F(s)) \land D(s)\right)
+$$ 
+\blacksquare \\
+
+
+\item \\
+(a)
+\begin{center}
+    
+$Lives(x, y) = (A(x, y) \land (N(x, y) > 1) \land (N(x, y) < 4)) \lor (\neg A(x, y) \land (N(x, y) = 3))$
+\end{center}\\
+
+(b)
+\begin{center}
+    
+$Dies(x, y) = (A(x, y) \land ((N(x, y) < 2) \lor (N(x, y) > 3))) \lor (\neg A(x, y) \land (N(x, y) \neq 3))$
+\end{center}\\
+
+\textbf{Working:} To prove that $Lives(x, y)$ and $Dies(x, y)$ are negations of each other, we have to show either: $\neg Lives(x, y) \equiv Dies(x, y)$ or $\neg Dies(x, y) \equiv Lives(x, y)$. \\
+\\
+$\neg Lives(x, y)$:
+\begin{sollist}
+    \item $\neg \left((A(x, y) \land (N(x, y) > 1) \land (N(x, y) < 4)) \lor (\neg A(x, y) \land (N(x, y) = 3))\right)$
+    \item $(\neg A(x, y) \lor (N(x, y) \leq 1) \lor (N(x, y) \geq 4)) \land (A(x, y) \lor (N(x, y) \neq 3))$ (by De Morgan's Laws)
+    \item $(\neg A(x, y) \lor (N(x, y) < 2) \lor (N(x, y) > 3)) \land (A(x, y) \lor (N(x, y) \neq 3))$ (as $N(x, y) \in \mathbb{Z}$)
+    \item $
+    (\neg A(x, y) \land (A(x, y)) \lor ((N(x, y) \neq 3)) \lor (N(x, y) < 2) \land (A(x, y) \lor (N(x, y) \neq 3))) \lor ((N(x, y) > 3) \land (A(x, y) \lor (N(x, y) \neq 3)))$ (by Distributive Laws)
+    \item $(\neg A(x, y) \land (N(x, y) \neq 3)) \lor (A(x, y) \land ((N(x, y) < 2) \lor (N(x, y) > 3)))$
+    \item $Dies(x, y)$
+\end{sollist}
+
+$\therefore \ \neg Lives(x, y) \equiv Dies(x, y)$
+
+    \end{enumerate}
+\end{document}

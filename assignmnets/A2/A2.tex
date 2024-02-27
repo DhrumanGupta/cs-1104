@@ -53,11 +53,11 @@
 \begin{enumerate}
     \item (a) The general form of a three-prime $n$ is a number with the factors: $\left\{ 1, a, n \right\}$. As $a$ is a factor, there must be another corresponding factor $b$, s.t $a * b = n$. However, we only want solutions where $a$ is a factor. Therefore, $a = b$. $a * a = n \rightarrow a = \sqrt{n}$. \\
     \\ 
-    Hence, the factors to a three-prime are $\left\{ 1, \sqrt{n}, n \right\}$. However, $\sqrt{n}$ is not always an integer. Thus, squaring both sides, we get that the factors of a three-prime, $n^2$, are $\left\{ 1, n, n^2 \right\}$.\\
+    Hence, the factors to a three-prime are $\left\{ 1, \sqrt{n}, n \right\}$. However, $\sqrt{n}$ is not always an integer. Thus, squaring both sides, we get that the factors of a three-prime, $n^2$, are $\left\{ 1, n, n^2 \right\}$. This gives the general form of a three-prime as $N = n^2$, where $n$ is a prime number.\\
     \\
     Proof: Assume there is a factor, $a$, such that $\left\{ 1, a, n^2 \right\}$ are the only factors of $n^2$, such that $a \neq n$. From the argument above, there must be another factor $b$, s.t $a * b = n^2$. So, $b$ must be a factor of $n$ too. This is a contradiction.\\
     \\
-    $\therefore$ By proof by contradiction, every three-prime number $n^2$ must only have the factors $\left\{ 1, n, n^2 \right\}$. \\
+    $\therefore$ By proof by contradiction, a three-prime number $n^2$ must only have the factors $\left\{ 1, n, n^2 \right\}$. $\blacksquare$ \\
     \\ 
     (b) Have to prove that:
     \begin{center}
@@ -83,28 +83,246 @@
 
     Now, $|p-q|$ = $|n+1 - n+1|$ = 2. \\
     \\
-    $\therefore$ $pq + 1 = n^2 \Leftrightarrow |p-q| = 2$ where p, q are primes. \\
+    $\therefore$ $pq + 1 = n^2 \Leftrightarrow |p-q| = 2$ where p, q are primes. $\blacksquare$\\
 
-    \item (a) \textbf{Strong Induction}: $P(i)\ \text{for}\ i\ 1 \leq i \leq k \rightarrow P(k + 1)$\\
-    $\therefore P(1) \implies P(n)\ \forall n \in \mathbb{N}$  \\
+    \item (a) \textbf{Strong Induction}: $P(i)\ \text{for}\ i\ 0 \leq i \leq k \rightarrow P(k + 1)$\\
+    $\therefore P(0) \implies P(n)\ \forall n \in \mathbb{N}$  \\
     \\
     \textbf{Weak Induction}: $P(k) \rightarrow P(k + 1)$  \\
-    $\therefore P(1) \implies P(n)\ \forall n \in \mathbb{N}$  \\
+    $\therefore P(0) \implies P(n)\ \forall n \in \mathbb{N}$  \\
     \\
-    If $P(n)$ is true by strong induction, we know that $P(i)\ \text{for}\ i\ 1 \leq i \leq k \rightarrow P(k + 1)$. This also means that $P(k)$ is true when $P(k+1)$ is true. That statement is the induction hypothesis of weak induction, and thus $P(n)$ is true by weak induction as well. \\
+    If $P(n)$ is true by strong induction, we know that $P(i)\ \text{for}\ i\ 0 \leq i \leq k \rightarrow P(k + 1)$. This also means that $P(k)$ is true when $P(k+1)$ is true. That statement is the induction hypothesis of weak induction, and thus $P(n)$ is true by weak induction as well. \\
     \\
-    Hence, if $P(n)$ holds by strong induction, it must hold by weak induction as well.\\ 
+    Hence, if $P(n)$ holds by strong induction, it must hold by weak induction as well. $\blacksquare$\\ 
     \\
     (b) Going by definitions from part (a):\\
     \\
-    Assume $P(n)$ is a proposition that holds by weak induction over $\mathbb{N}$. We know that $P(k) \rightarrow P(k + 1)$, and $P(1)$. By definition, this also means $P(k)$. \\ 
+    Assume $P(n)$ is a proposition that holds over $\mathbb{N}$ by weak induction. We know that $P(k) \rightarrow P(k + 1)$, and $P(0)$ are true.\\ 
+    \\
+    Now, let the proposition $Q(n) \coloneqq P(k), 0 \leq k \leq n$. Consider $Q(0)$. $Q(0) = P(0) = \text{True}$. \\ 
+    Now, assume $Q(k)$ is true for some $k \in \mathbb{N}$. Consider $Q(k+1)$:
+\begin{sollist}
+    \item $P(m), 0 \leq m \leq k + 1$
+    \item $P(k+1) \land (P(m), 0 \leq m \leq k)$
+    \item $P(k+1) \land Q(k)$ \  (by definition)
+    \item $P(k+1) \land \text{True}$ \  (by assumption)
+    \item $P(k+1)$
+\end{sollist}
 
-    
+We know $P(k+1)$ holds for any $k \in \mathbb{N}$, as $P(n)$ holds by weak induction. Therefore $Q(k) \rightarrow Q(k+1)$ and $Q(1)$ hold. $\therefore Q(n)$ holds by weak induction.\\
 
-    
+Also, by the last step, we can also see that $Q(k) = P(k+1)$, and therefore $Q(n) \leftrightarrow P(n+1)$. Hence, $(P(k),\ 0 \leq k \leq n) \rightarrow P(n+1)$. This is the same as strong induction. Therefore, weak induction implies strong induction. $\blacksquare$\\
+\\
+(c) Need to show that $P(0) \land (P(k) \rightarrow P(k+1)) \rightarrow (P(n),\ \forall n \in \mathbb{N})$.\\
+Assume a predicate $Q(n)$, which has the property that $Q(0) \land (Q(k) \rightarrow Q(k+1)) \implies Q(n), \forall n \in \mathbb{N}$.\\
+\\
+Let the set $S \subset \mathbb{N}$ such that $Q(k)$ is false $\forall k \in S$. Suppose $S$ is non-empty. Then, by the well-ordering principle, $S$ has a least element, say $m$.\\
+\\
+By the definition of $Q$, we know $Q(0)$ holds, thus $m \neq 0$. Also, as $m - 1 \notin S$, $Q(m-1)$ holds. However, $Q(m-1) \rightarrow Q(m)$, and thus $Q(m)$ holds. This is a contradiction.\\
+\\
+$\therefore$ By proof using contradiction, $S$ is empty, and $Q(n)$ holds $\forall n \in \mathbb{N}$. So, if $Q$ is a proposition with the property $Q(0) \land (Q(k) \rightarrow Q(k+1))$, $Q$ must hold $\forall n \in \mathbb{N}$. This is the principle of Weak Induction. $\blacksquare$\\
+\\
+(d) The W.O.P states that any non-empty $S \subset \mathbb{N}$ has a least element $k$. So, assume this does not hold. That is, there exists some non-empty $S' \subset \mathbb{N}$ that does not have a least element.\\
+\\
+Consider the predicate $P(n)$, which holds if and only if $n \notin S'$. We want to show that $P(n)$ holds $\forall n \in \mathbb{N}$\\
+\\
+\textbf{Basis:} $P(0)$ holds, as $0 \notin S'$ (otherwise, 0 would be the least element of S).\\
+\textbf{Induction Hypothesis:} Assume that $P(i)$ holds $\forall i, 0 \leq i \leq k$, for some $k \in \mathbb{N}$. This means that no numbers from 0 to k are not in $S'$\\
+\textbf{Inductive Step:} We want to show that $P(k+1)$ holds. If $k+1 \in S'$, then $k+1$ is the least element of $S'$ (as from our assumption, no numbers from 0 to k are in $S'$). Therefore, $k+1 \in S' \rightarrow P(k+1)$\\
+\\
+By strong induction, this implies that $P(n)$ holds $\forall n \in \mathbb{N}$. This means that $n \notin S',\ \forall n \in \mathbb{N}$. Thus, $S'$ is empty. This is a contradiction, as $S'$, by assumption is non-empty.\\
+\\
+Therefore, by contradiction, strong induction implies the W.O.P. $\blacksquare$
+
+\item (a) Need to show that $T(\mathbb{R})$ holds, i.e, $(x\neq y)\rightarrow (x < y \oplus x > y),\ \forall x, y \in \mathbb{R}$.\\
+Let $x, y \in \mathbb{R}$, and $x \neq y$. \\
+\\
+We have $x \neq y$ from our assumption, so, the only choices are $x > y$ or $x < y$. To prove that they are mutually exclusive choices, consider both the cases:\\
+\textbf{Case 1:} $x < y$. By the principles of ordering, $(x < y) \rightarrow \neg(x > y)$.\\
+\textbf{Case 2:} $x > y$. By the principles of ordering, $(x > y) \rightarrow \neg(x < y)$.\\
+
+This gets us $((x > y) \rightarrow \neg(x < y)) \land ((x < y) \rightarrow \neg(x > y)) \equiv (x < y) \oplus (x > y)$. Thus $(x\neq y) \rightarrow (x < y \oplus x > y),\ \forall x, y \in \mathbb{R}$.\\
+\\
+$\therefore T(\mathbb{R})$ holds. $\blacksquare$
+\vspace{0.5in}\\
+(b) The number system $\mathbb{C}$ (complex numbers) is one that does not satisfy the trichotomy property. Proof by counterexample:\\
+\\
+Let $\alpha = 1 + 1$ and $\beta = 1 - i$. Considering the trichotomy property:\\
+(i) $\alpha < \beta$. This does not hold as complex numbers are not linearly ordered and thus cannot be compared.\\
+(ii) $\alpha = \beta$. This does not hold as $\alpha \neq \beta$.\\
+(iii) $\alpha > \beta$. This does not hold as complex numbers are not linearly ordered and thus cannot be compared.\\
+\\
+So, in this case, $(\alpha \neq \beta) \nrightarrow (\alpha < \beta \oplus \alpha = \beta \oplus \alpha > \beta)$.\\
+$\therefore$ The trichotomy property does not hold for $\mathbb{C}$. $\blacksquare$\\
+
+\item There are $n$ teams, and each team plays every other team exactly once. So, each team plays $n-1$ games.\\
+\\
+Each team also loses at least 1 match, which means that at, most, out of the $n-1$ games, they can win $n-2$ matches (as they lose one match). This implies that each team can win $0$ to $n-2$ games.\\
+\\
+This means that there are $n-1$ "pigeonholes" (the number of games won), and $n$ "pigeons" (the number of teams). By the pigeonhole principle, at least two teams must have won the same number of games. $\blacksquare$\\
+
+\item (a) Proving using strong induction. Let $P(n)$ be the proposition that $\gcd(F_{n}, F_{n+1}) = 1$.\\
+\\
+\textbf{Basis:} ($n=1\ \text{and}\ n=2$)\\
+$n=1$: $F_{1} = 1$ and $F_{2} = 1$. $\gcd(1, 1) = 1$. $P(1)$ holds.\\
+$n=2$: $F_{2} = 1$ and $F_{3} = 2$. $\gcd(1, 2) = 1$. $P(2)$ holds.\\
+\\
+\textbf{Inductive Hypothesis:} Assume that $P(i)$ holds for all $i$, $1 \leq i \leq k$, for some $k \geq 1$. That is:
+$$\gcd(F_{i}, F_{i+1}) = 1,\ \forall i, 1 \leq i \leq k$$\\
+\\
+\textbf{Inductive Step:} We want to show that $P(k+1)$ holds, i.e $\gcd(F_{k+1}, F_{k+2}) = 1$.\\
+We know the property $\gcd(a, b) = \gcd(a, b -  a)$ exists. So, we can write:
+\begin{sollist}
+\item $\gcd(F_{k+1}, F_{k+2}) = \gcd(F_{k+1}, F_{k+2} - F_{k+1})$
+\item $\gcd(F_{k+1}, F_{k})$\ \ \ \ (as $F_{k+2} = F_{k} + F_{k+1}$)
+\item $\gcd(F_{k}, F_{k+1})$\ \ \ \ (commutative)
+\item 1\ \ \ \ (by the inductive hypothesis)
+\end{sollist}
+
+So, $P(k+1)$ holds if $P(i)$ holds for all $i$, $1 \leq i \leq k$.
+
+$\therefore$ By the principle of strong induction, $P(n)$ holds $\forall n \geq 1$. That is, $\gcd(F_n, F_{n+1}) = 1,\ \forall n \geq 1$\\
+\\
+(b) N.T.S that $F_{n-1} \times F_{n+1} - (F_n)^2 = (-1)^n,\ \forall n \geq 2$. Consider a proposition $P(n)$, which is true if this statemet holds.\\
+\\
+\textbf{Basis:} ($n=2$)\\
+$P(2)$: $F_{1} \times F_{3} - (F_2)^2 = 1 \times 2 - 1 = 1 = (-1)^2$. Thus $P(2)$ holds.\\
+\\
+\textbf{Inductive Hypothesis:} Assume that $P(k)$ holds for some $k \geq 2$. That is:
+$$F_{k-1} \times F_{k+1} - (F_k)^2 = (-1)^k$$
+\\
+\textbf{Inductive Step:} We want to show that $P(k+1)$ holds. That is:
+$$F_{k} \times F_{k+2} - (F_{k+1})^2 = (-1)^{k+1}$$
+Expanding the LHS:
+\begin{sollist}
+    \item $F_{k} \times F_{k+2} - (F_{k+1})^2$
+    \item $F_k \times (F_{k} + F_{k+1}) - (F_{k+1})^2$
+    \item $F_k \times F_{k+1} + (F_{k})^2 - (F_{k+1})^2$
+    \item $F_{k+1} (F_{k} - F_{k+1}) + (F_{k})^2$
+    \item $F_{k+1} (-F_{k-1}) + (F_{k})^2$
+    \item $(-1)(F_{k+1} (F_{k-1}) - (F_{k})^2)$
+    \item $(-1)(-1)^k$ \ \ \ \ \ \ \ \ \ \ (From assumption)
+    \item $(-1)^{k+1}$
+\end{sollist}
+
+So, $P(k+1)$ holds if $P(k)$ holds.\\
+$\therefore$ By PMI, $F_{n+1}\times F_{n-1} - (F_n)^2 = (-1)^n,\ \forall n \geq 2$.\\
+\\
+(c) N.T.S $F_n = \frac{\alpha^n -\beta^n}{\sqrt{5}},\ \forall n \geq 0$. Let $P(n)$ be the proposition that this statement holds.\\
+\\
+\textbf{Basis:} ($n=0$ and $n=1$)\\
+$P(0)$: $F_0 = \frac{\alpha^0 - \beta^0}{\sqrt{5}} = \frac{1-1}{\sqrt(5)} = 0$. $P(0)$ holds.\\
+$P(1)$: $F_1 = \frac{\alpha - \beta}{\sqrt{5}} = 1$. $P(1)$ holds.\\
+\\
+\textbf{Inductive Hypothesis:} Assume that $P(i)$ holds for all $i$, $0 \leq i \leq k$ for some $k \geq 0$. That is:
+$$F_k = \frac{\alpha^k - \beta^k}{\sqrt{5}}$$
+
+\textbf{Inductive Step:} We want to show that $P(k+1)$ holds. That is:
+$$F_{k+1} = \frac{\alpha^{k+1} - \beta^{k+1}}{\sqrt{5}}$$
+Expanding the LHS:
+\begin{sollist}
+    \item $F_{k+1}$
+    \item $F_k + F_{k-1}$
+    \item $\frac{\alpha^k - \beta^k}{\sqrt{5}} + \frac{\alpha^{k-1} - \beta^{k-1}}{\sqrt{5}}$\ \ \ \ \ \ \ (from assumption)
+    \item $\frac{\alpha^k + \alpha^{k-1} - \beta^k - \beta^{k-1}}{\sqrt{5}}$
+    \item $\frac{\alpha^{k-1}(\alpha + 1) - \beta^{k-1}(\beta + 1)}{\sqrt{5}}$
+\end{sollist}
+As $\alpha$ and $\beta$ are the roots of the equation $x^2 = x + 1$, we know that $\alpha + 1 = \alpha^2$ and $\beta + 1 = \beta^2$. Substituting these values:\\
+$= \frac{\alpha^{k+1} - \beta^{k+1}}{\sqrt{5}}$\\
+\\
+$\therefore F_n = \frac{\alpha^{n} - \beta^n}{\sqrt{5}}$\\
+
+\item (a) We know the set $S$ has $2n$ elements, i.e, $|S| = 2n$. We need to find a size $m$, s.t given $S' \subset S$, and $|S'| = m$, $S'$ contains an even number. \\
+\\
+We know there are $n$ even numbers and $n$ odd numbers in $S$. So, if $m = n+1$, then $S'$ must contain at least $n+1$ elements, and thus at least $1$ even number. That is because $S'$ would then contain all odd numbers, and thus the $n + 1^{th}$ element must be even. \\
+\\
+$\therefore m = n+1$ is the smallest size $m$ that guarantees that $S'$ contains an even number. $\blacksquare$\\
+\\
+(b) Let $S' \subset S$, and $|S'| = n+1$. We know that $S'$ contains at least $n+1$ elements, and, with a similar argument to that in part (a), has at least $1$ odd and even number.\\
+\\
+This implies that there must be two consecutive numbers in the set $S'$. This is because, if there are no consecutive numbers, then all the numbers in $S'$ would be even, and thus $S'$ would contain $n+1$ even numbers. This is a contradiction.\\
+\\
+So, given those two numbers, $p$ and $p+1$, we know that they are co-prime (since they are consecutive). Thus, $\gcd(p, p+1) = 1$, and $\exists x,y \in S'(\gcd(x, y) = 1)$.\\
 \end{enumerate}
 
 
 \section{$\neg$Straightforward}
+\begin{enumerate}
+\item The strategy of pairing the lightest boxers first, then the second lightest the second, and so on, can be proven using the principle of weak induction. Let $B$ be the set of the weights of the boxers in the blue team, and $R$ be the set of the weights of the boxers in the red team, sorted in ascending order by their weight. So, $B_1 \leq B_2 \leq ... \leq B_n$ and $R_1 \leq R_2 \leq ... \leq R_n$ \\
+\\
+Using induction:\\
+\\
+\textbf{Basis:} $(n=1)$. This implies that there are $1$ boxers in each team. So, since a valid pairing has to exist, pairing the lightest with the lightest would always be true. So, since $|R_1 - B_1| < 1$, the pairing is valid.\\
+\\
+\\
+\textbf{Induction Hypothesis:} Assume true for some $k$ (a positive integer). That is, there exists a valid pairing for $k$ boxers in each team, if we pair $R_1$ with $B_1$, $R_2$ with $B_2$, and so on till $R_k$ with $B_k$, the pairings are valid. \\
+\\
+\textbf{Inductive Step:} We want to show that the strategy holds for $k+1$ boxers in each team. That is, if we pair $R_1$ with $B_1$, $R_2$ with $B_2$, and so on till $R_{k+1}$ with $B_{k+1}$, the pairings are valid.\\
+\\
 
+$\blacksquare$\\
+
+\item The colors would only remain the same if the board is zapped an even number of times. So, we need to show that the bishop travels an even taxicab distance. Moreover, a bishop can only move diagonally, that is, in the directions: $(n, n),\ (n, -n)\ (-n, n),\ (-n, -n)$, where $n \in \mathbb{Z}^+$. So, the taxicab distance from a starting point $(x_0, y_0)$ is $|x_0 + n - x_0| + |y_0 + n - y_0| = 2n$ (we can take $n$ instead of $-n$ W.L.O.G as it is under the modulus sign).\\
+\\
+\textbf{Basis:} ($n=0$)\\
+Since the bishop does not move, the taxicab distance is 0. This is an even number. So, the bishop is on a black cell.\\
+\\
+\textbf{Inductive Hypothesis:} Assume that the bishop travels an even taxicab distance of $2k$. That is, there are $2k$ zaps, and thus the colors remain the same. Since the bishop moved $k$ distance in both axis, it went diagonally, it is still on a black cell because diagonals have the same color on a chess board.\\
+\\
+\textbf{Inductive Step:} We want to show that the bishop travels an even taxicab distance of $2(k+1)$. That is, there are $2(k+1)$ zaps, and thus the colors remain the same.\\
+From the assumption, we know that the taxicab distance for the distance $k$ is $2n$. However, the bishop has moved 1 more step. Considering the formula: $distance = 2|x - x_0|$, we get:
+\begin{sollist}
+    \item $distance = 2|x_0 + (k + 1) - (x_0 - k)|$
+    \item $distance = 2|2k + 1|$
+\end{sollist}
+And is thus even. So, the bishop travels an even taxicab distance for any distance it travels. Moreover, we have also established that it moves diagonally. $\therefore$ by PMI, the bishop remains on a black cell.\\
+\item The problem with the proof is the base case. The proposition is not true for $n=2$, which is problematic as then, $P(3)$ is not implied, and so on. It uses the assumption incorrectly, which leads to a wrong conclusion.\\
+\\
+\textbf{Reasoning:} The inductive step considers a group of $n + 1$ students, and assumes that a group of $n$ students are CS Majors. The problem lies at $n=2$ because the inductive step assumes that a group of $n$ students are CS Majors, and then considers "a" group of $n+1$ students. Then, a student is removed, and they confirm that the group of $n$ students are CS Majors. The first problem lies here. These groups may not be the same. They both have $n$ students, but they are not always the same. However, there could be a case when they are the same. In that case, the following problem occurs:\\
+\\
+Another student is removed from the group and thus the group is of size $n - 1$. Then, the first student removed is added back, and the group is of $n$ students. This is certainly a different group from that in the assumption (as the one in the assumption did not have the recently added student). Thus, this cannot be proven from the assumption itself. \\
+\\
+\textbf{Proof by Counter Example:} Let a group of 3 students be considered, A, B, C. A and B are CS Majors, whereas C is an Economics major. The inductive step assumes that a group of 2 students are CS Majors, and then considers a group of 3 students. Then, a student is removed, and they confirm that the group of 2 students are CS Majors. Applying that here:
+\begin{itemize}
+    \item Assumption holds because we can take the set \{A, B\} (by removing C)
+    \item Now, remove B, and add C back. The set is now \{A, C\} This is not the same as the set in the assumption, and is, in-fact, a counter example, as C is not a CS Major. 
+\end{itemize}
+So, the inductive step does not hold.
+\end{enumerate}
+
+\section{Bonus}
+\begin{enumerate}
+    \item (a) Need to show that $\frac{a_1 + a_2}{2} \in A$ and $\frac{b_1 + b_2}{2} \in B$.\\
+    \\
+    $m$ is the mean of $a_1$ and $a_2$. Visually speaking, it is in between these two points on the number line. Thus, it cannot be greater than the maximum or lower than the minimum of $A$. So, $m \in A$.\\
+    \\
+    The same argument proves true that $n \in B$.\\
+    \\
+    (b) Proving $P_n \in A, \forall n$:\\
+    \\
+    \textbf{Basis:} $(n=0).\ P_0 = m$. Proven in (a)\\
+    \textbf{Induction Hypothesis:} Assume that $P_k \in A$ for some $k$ \\
+    \textbf{Inductive Step:} We want to show that $P_{k+1} \in A$.
+    \begin{sollist}
+        \item $P_{k+1}$
+        \item $\frac{a_1 + P_k}{2}$
+    \end{sollist}
+    As $P_k \in A$, and $a_1 \in A$, we know that $\frac{a_1 + P_k}{2} \in A$. (from same argument as in (a)).\\
+    $\therefore by PMI, P_n \in A, \forall n$\\
+    \\
+    Similarly, $Q_n \in A, \forall n$ can also be proven, as $Q_n$ is the mean of $a_2$ and $Q_{n-1}$, and $a_2 \in A$. From the argument, we know: $Q_{n-1} \in A$.\\
+    $\blacksquare$\\
+    \\
+    (c) For them to be in the same set, they must be equal. So, we need to show that $\text{lub}(A) = \text{glb}(B)$.\\
+    Let $a = \text{lub}(A)$ and $b = \text{glb}(B)$.\\
+    \\
+    Assume $a > b$. This means, that there is a number $c \in A$, s.t $c > b$. However, this is a contradiction, as $b$ is the greatest lower bound of $B$, and $\forall x \in A \forall y \in B (x < y)$\\
+    \\
+    Assume $a < b$. This means, that there is a number $d \in B$, s.t $d < a$. However, this is a contradiction, as $a$ is the least upper bound of $A$, and $\forall x \in A \forall y \in B (x < y)$\\
+    \\
+    As is not $a > b$ and not $a < b$, we get that $a = b$.\\
+    $\therefore \text{lub}(A) = \text{glb}(B)$. $\blacksquare$\\
+    \\
+    
+\end{enumerate}
 \end{document}

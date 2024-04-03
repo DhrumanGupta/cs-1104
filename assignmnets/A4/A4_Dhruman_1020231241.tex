@@ -618,8 +618,65 @@ WLOG, assume $\min(L[0], R[0]) = L[0]$. By definition, we have:
 \end{sollist}
 
 Thus, $P(k) \rightarrow P(k+1)$.\\
-
-
 \end{enumerate}
 \end{enumerate}
+
+\section{Bonus}
+
+(2): Two Sum.
+
+\begin{enumerate}[label=\roman*]   
+    \item \textbf{Definition}:\\
+    - Input: Integer Array $A$, Integer $n \geq 2$, denoting the size of $A$.\\
+    - Output: 2-Tuple Array, containing all pairs of numbers that add up to $0$.
+    
+    \item \textbf{Decomposition}: We can solve this problem by traversing over all pairs of numbers, and checking if their sum is 0. So, we can write our problem as:
+\begin{verbatim}
+def two_sum(A, n, i=0):
+    def check(A, i, j):
+        if j == n:
+            return []
+        if A[i] + A[j] == 0:
+            return [(A[i], A[j])] + check(A, i, j+1)
+        return check(A, i, j+1)
+    if n <= 1 or i == n:
+        return []
+    return check(A, i, i+1) + two_sum(A, n, i+1)
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = T(n-1) + O(n)$\\
+    $T(1) = O(1)$
+\end{center}
+
+\begin{sollist}
+    \item $T(n) = T(n-1) + O(n)$
+    \item $T(n-1) + O(n)$
+    \item $T(n-2) + 2O(n)$
+    \item $\dots$
+    \item $T(1) + nO(n)$
+    \item $nO(n) = O(n^2)$
+\end{sollist}
+
+Thus, $T(n) \in \Theta(n^2)$.
+
+\item \textbf{Design}: We cannot directly memoize the state of this algorithm, as the same state is not computed again. However, we can use a hashmap to keep track of potential pairs. This is done by storing the negative of the number in the hashmap, and then checking if the number is present in the hashmap. So, if it is found, we know that the other pair exists in the array. The lookup time for a hashmap is $O(1)$, so this will reduce the time complexity to $O(n)$.
+
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+
+\begin{verbatim}
+def two_sum(A, n):
+    hashmap = {}
+    result = []
+    for i in range(n):
+        if A[i] in hashmap:
+            result.append((A[i], -A[i]))
+        else:
+            hashmap[-A[i]] = i
+    return result
+\end{verbatim}
+
+\end{enumerate}
+
 \end{document}

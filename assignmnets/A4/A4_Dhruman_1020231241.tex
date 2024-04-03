@@ -1,0 +1,625 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 4},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 4}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+    \item (a) The Master Theorem provides solutions to recurrences of the form $T(n) = aT(n/b) + f(n)$, given that $T(1) = c$. $f(n) \in \Theta (n^d)$. From the equation $T(n) = 4T(n/2) + c$, we get that:\\
+    $$a = 4,\ b = 2,\ f(n) = c, d = 1$$
+    These satisfy the conditions $a \geq 1,\ b > 1,\ c > 0$. \\
+    As $a > b^d \leftrightarrow 4 > 2^1$, we are in case 1 of the Master Theorem.\\
+    So, $T(n) \in \Theta(n^{\log_2 4}) = \Theta(n^2)$.\\
+
+    (b) $T(n) = T(n/4) + T(n/2) + nc$, where $T(1) = c_0$. \\
+    In order to apply the Master Theorem, we need to convert the recurrence into the form $T(n) = aT(n/b) + f(n)$.\\
+
+    So, we can take: $T(n) \leq 2T(n/2) + nc$. Applying the Master Theorem, we get that:
+    $$a = 2,\ b = 2,\ f(n) = nc, d = 1$$
+
+    These satisfy the conditions $a \geq 1,\ b > 1,\ c > 0$. \\
+
+    As $a = b^d \leftrightarrow 2 = 2^1$, we are in case 2 of the Master Theorem.\\
+
+    So, $T(n) \in \Theta(n^d \log_2 n) = \Theta(n \log_2 n)$.\\
+
+
+    (c) $T(n) = T(n-2) + T(n-4)$, where $T(0) = T(1) = T(3) = c_0$.\\
+    We can convert this into the form $T(n) = aT(n/b) + f(n)$ by taking $T(n) = T(n-2) + T(n-4) \leq 2T(n-2)$.\\
+
+    So, we get $a = 2,\ b = 1,\ f(n) = 0, d = 0$. This does not satisfy the conditions of the Master Theorem. So, manually evaluating the recurrence, we get:
+    \begin{sollist}
+    \item $T(n) \leq 2T(n-2)$ 
+    \item $\leq 4T(n-4)$
+    \item $\leq 8T(n-6)$
+    \item $\leq \dots$
+    \item $\leq 2^kT(n-2k)$ (after $k$ steps)\\
+\end{sollist}
+We know there will thus be $\frac{n}{2}$ steps. So, $T(n) = 2^{\frac{n}{2}}T(0) = 2^{\frac{n}{2}}c_0$.\\
+So, $T(n) \in \Theta(2^n)$.\\
+
+    \item (a)
+    \begin{enumerate}[label=\roman*]
+        \item \textbf{Definition}:\\
+- Input: Integer $m, n \geq 0$\\
+- Output: Integer $x$ such that $x = m \times n$.
+\item \textbf{Decomposition}: We know that $m \times n = m \times (n-1) + m$. So, we can write our problem as:\\
+\begin{verbatim}
+def multiply(m, n):
+    if n == 0:
+        return 0
+    return multiply(m, n-1) + m
+\end{verbatim}
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = T(n-1) + O(p)$\\
+$T(0) = O(1)$
+\end{center}
+\begin{sollist}
+    \item $T(n-1) + O(p)$
+    \item $T(n-2) + 2O(p)$
+    \item $T\dots$
+    \item $T(0) + nO(p)$
+    \item $nO(p)$
+\end{sollist}
+Now, we know that $p = \log_2 n$, so we get $T(n) = nO(\log_2 n)$.\\
+Thus, $T(n) \in \Theta (n \log_2 n)$. Alternatively, we get $T(p) \in \Theta(p * 2^p)$, where $p$ is the number of bits.
+\item \textbf{Design}: We cannot use memoization to improve the time complexity of this algorithm.
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+\begin{verbatim}
+    def multiply(m, n):
+        result = 0
+        while n > 0:
+            result += m
+            n -= 1
+
+        return result
+\end{verbatim}
+\item \textbf{Correctness}:
+$$P(n): multiply(m, n) = m\times n$$
+\textbf{Base Case}: $n = 0$. The function returns 0, which is the correct answer, as $m\times 0 = 0,\ \forall m$. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+By definition, we have:
+\begin{center}
+    
+$multiply(m, k+1) = multiply(m, k) + m$\\
+$= m \times k + m\ \ \text{ (IH)}$ \\
+$= m \times (k+1)$
+\end{center}
+Thus, $P(k+1)$ holds. Hence, $P(k) \rightarrow P(k+1)$.
+    \end{enumerate}
+
+(b)
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: Integer $m > 0,\ n \geq 0$\\
+    - Output: Integer $x$ such that $x = m^n$.
+    \item \textbf{Decomposition}: We know that $m^n = m^{n-1} \times m$. So, we can write our problem as:\\
+    \begin{verbatim}
+    def power(m, n):
+    if n == 0:
+        return 1
+    return power(m, n-1) * m
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = T(n-1) + O(p^2)$\\
+$T(0) = O(1)$
+\end{center}
+
+\begin{sollist}
+    \item $T(n-1) + O(p^2)$
+    \item $T(n-2) + 2O(p^2)$
+    \item $T\dots$
+    \item $T(0) + nO(p^2)$
+    \item $nO(p^2)$
+\end{sollist}
+
+Now, we know that $p = \log_2 n$, so we get $T(n) = nO((\log_2 n)^2)$.\\
+Thus, $T(n) \in \Theta (n (\log_2 n)^2)$. Alternatively, we get $T(p) \in \Theta(p^2 \times 2^p)$, where $p$ is the number of bits.
+
+\item \textbf{Design}: We cannot use memoization to improve the time complexity of this algorithm.
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+\begin{verbatim}
+    def power(m, n):
+        result = 1
+        while n > 0:
+            result *= m
+            n -= 1
+
+        return result
+\end{verbatim}
+
+\item \textbf{Correctness}:
+$$P(n): power(m, n) = m^n$$
+\textbf{Base Case}: $n = 0$. The function returns 1, which is the correct answer, as $m^0 = 1,\ \forall m$. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+By definition, we have:
+\begin{center}
+    $power(m, k+1) = power(m, k) \times m$\\
+    $= m^k \times m\ \ \text{ (IH)}$ \\
+    $= m^{k+1}$
+\end{center}
+Thus, $P(k+1)$ holds. Hence, $P(k) \rightarrow P(k+1)$.\\
+\end{enumerate}
+(c)
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: String s with first out of bound character as the literal '$\backslash 0$' \\
+    - Output: Integer $x$ where $x$ is the length of the string $s$.
+
+    \item \textbf{Decomposition}: We know that the length of a string is the length of the string without the first character + 1. So, we can write our problem as:
+\begin{verbatim}
+def length(s):
+    def helper(s, i):
+        if s[i] == '\0':
+            return 0
+        return 1 + helper(s, i+1)
+    return helper(s, 0)
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = T(n-1) + O(1) +O(1)$\\
+    $T(0) = O(1)$
+\end{center}
+Where $n$ is the size of the string $s$.
+\begin{sollist}
+    \item $T(n-1) + 2O(1)$
+    \item $T(n-2) + 4O(1)$
+    \item $T\dots$
+    \item $T(0) + nO(1)$
+    \item $nO(1)$
+\end{sollist}
+
+Thus, $T(n) \in \Theta(n)$.\\
+
+\item \textbf{Design}: We cannot use memoization to improve the time complexity of this algorithm.
+
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+\begin{verbatim}
+    def length(s):
+        i = 0
+        while s[i] != '\0':
+            i += 1
+
+        return i
+\end{verbatim}
+
+\item \textbf{Correctness}:
+$$P(n): length(s) = n$$
+\textbf{Base Case}: $n = 0$. So, $s = "\backslash 0"$. Thus, $s[0] = '\backslash 0'$. The function returns 0. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+By definition, we have:
+\begin{sollist}
+    \item $length(s) = 1 + length(s[1:])$
+    \item $1 + k\ \ \text{ (IH)}$
+    \item $k+1$
+\end{sollist}
+
+Thus, $P(k+1)$ holds. Hence, $P(k) \rightarrow P(k+1)$.\\
+
+\end{enumerate}
+
+(d)
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: Integer $a \geq 0,\ b > 0$\\
+    - Output: Integer $x$ where $x = a \mod b$
+
+    \item \textbf{Decomposition}: We know that $a \mod b = (a-b) \mod b$. So, we can write our problem as:
+\begin{verbatim}
+def mod(a, b):
+    if a < b:
+        return a
+    return mod(a-b, b)
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(a) = T(a-b) + O(p) + O(1)$\\
+    $T(0) = O(1)$
+\end{center}
+Where $p$ is the max of the bits in $a$ and $b$. Solving the recurence:
+\begin{sollist}
+    \item $\leq T(a-b) + 2O(p)$
+    \item $T(a-2b) + 4O(p)$
+    \item $T\dots$
+    \item $T(0) + 2 \frac{a}{b}O(p)$
+    \item $2 \frac{a}{b}O(p)$
+\end{sollist}
+We also know that $p = \log_2 a$.
+Thus, $T(a) \in \Theta(\frac{a}{b} p) = \Theta(a \log_2 a)$.\\
+
+\item \textbf{Design}: We cannot use memoization to improve the time complexity of this algorithm.
+
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+\begin{verbatim}
+    def mod(a, b):
+        while a >= b:
+            a -= b
+
+        return a
+\end{verbatim}
+
+\item \textbf{Correctness}: We are iterating on $a$, as $b$ is invariant throughout.
+$$P(a, b): mod(a, b) = a \mod b$$
+\textbf{Base Case}: $a < b$. The function returns $a$, which is the correct answer, as $a \mod b = a,\ \forall a < b$. \\
+\textbf{Inductive Hypothesis}: Assume by strong induction, that the function holds $\forall i, 0 \leq 0 \leq k$, for some $k$, i.e $P(k, b)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1, b)$ holds.\\
+By definition, we have:
+\begin{sollist}
+    \item $mod(k+1, b) = mod(k+1-b, b)$
+    \item $(k+1-b) \mod b\ \ \text{ (IH)}$
+    \item $(k+1) \mod b$
+\end{sollist}
+
+Thus, $P(k+1, b)$ holds. Hence, $P(k, b) \rightarrow P(k+1, b)$.\\
+\end{enumerate}
+\vspace{1.5in}
+
+(e)
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: Integer Array $A$, Integer $n$, denoting size of $A$\\
+    - Output: Integer Array $A$ such that $A$ is sorted in ascending order.
+
+    \item \textbf{Decomposition}: We know that the smallest element in an array is the smallest element in the array without the first element. So, if we can assert that the first $i$ elements of the array are sorted, the sorting problem can be narrowed down to a size of $n-i$. So, we can write our problem as:
+
+\begin{verbatim}
+def sort(A, n, i=0):
+    def subsort(A, j):
+        if j > 0 and A[j-1] > A[j]:
+            A[j-1], A[j] = A[j], A[j-1]
+            return subsort(A, j-1)
+        return A
+    
+    if i == n:
+        return A
+    
+    return sort(subsort(A, i), n, i+1)
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we first need to solve the time complexity of the subsort function.\\
+\begin{center}
+    $T(n) = T(n-1) + O(1)$\\
+    $T(0) = O(1)$
+\end{center}
+\begin{sollist}
+    \item $T(n-1) + O(1)$
+    \item $T(n-2) + 2O(1)$
+    \item $T\dots$
+    \item $T(0) + nO(1)$
+    \item $nO(1) = O(n)$
+\end{sollist}
+
+Now, we can solve the time complexity of the sort function.\\
+\begin{center}
+    $T(n) = T(n-1) + O(n) + O(1)$\\
+    $T(0) = O(1)$
+\end{center}
+
+\begin{sollist}
+    \item $T(n) \leq T(n-1) + 2O(n)$
+    \item $T(n-2) + 4O(n)$
+    \item $\dots$
+    \item $T(0) + nO(n)$
+    \item $nO(n) = O(n^2)$
+\end{sollist}
+
+Thus, $T(n) \in \Theta(n^2)$.\\
+
+\item \textbf{Design}: We cannot use memoization to improve the time complexity of this algorithm.
+
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+
+\begin{verbatim}
+def sort(A, n):
+    i = 0
+    while i < n:
+        j = i
+        while j > 0 and A[j-1] > A[j]:
+            A[j-1], A[j] = A[j], A[j-1]
+            j -= 1
+        i += 1
+    return A
+\end{verbatim}
+
+\item \textbf{Correctness}:
+$$P(n): sort(A, n) = A_{\text{sorted}} \text{, where } A_{\text{sorted}} \text{ is A sorted}$$
+
+\textbf{Base Case}: $n = 0$. The function returns $A$, which is the correct answer, as an empty array is sorted. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: We need to prove 2 algorithms here. The inner loop, and the outer loop.\\
+
+\textbf{Inner Loop}:\\
+$$P(j): \text{The first j elements of A are sorted}$$
+\textbf{Base Case}: $j = 0$. The function returns $A$, which is the correct answer, as the first element is a singleton, and thus sorted. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+
+Case 1, $A[j+1] \geq A[j]$. This means $P(j+1)$ is already true.\\
+
+Case 2, $A[j+1] < A[j]$. So, we need to show that $A[j+1]$ is moved to the correct position. This is done by the swapping operation. So, $P(j+1)$ holds.\\
+
+Thus, $P(j) \rightarrow P(j+1)$, and so, the inner loop is correct.\\
+
+\textbf{Outer Loop}:\\
+$$P(n): sort(A, n) = A_{\text{sorted}}$$
+
+\textbf{Base Case}: $n = 0$. The function returns $A$, which is the correct answer, as an empty array is sorted. \\
+
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds. By definition, we have:\\
+
+$sort(A, k+1) = sort(A_1, k+1)$, where $A_1$ is the array after the first iteration of the inner loop.
+
+We know that the singleton sub-array consisting of the element $A[0]$ is sorted (as our inner loop is correct). So, the problem becomes $sort(A_1, k)$. By the inductive hypothesis, we know that $sort(A_1, k) = A_{\text{sorted}}$. So, $sort(A, k+1) = A_{\text{sorted}}$.\\
+
+Hence, $P(k) \rightarrow P(k+1)$.\\
+\end{enumerate}
+\end{enumerate}
+
+\section{$\neg$ Straightforward}
+\begin{enumerate}
+    \item Need to solve the towers of Hanoi problem.
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: Integer $n$, denoting the size of the problem \\
+    - Output: Moves to move the $n$ disks from A to C, s.t. no larger disk is placed on a smaller disk.
+
+    \item \textbf{Decomposition}: We know that the $n$th disk can be moved to C only if the first $n-1$ disks are moved to B. We move the first $n-1$ disks to the B. Then, we move the last disk to C. Now, we have no disks in tower A, $n-1$ in B, and the heaviest in $C$. So, if we say that A is our auxilary tower, we already know how to solve for this $n-1$ case. So, we can write our problem as:
+\begin{verbatim}
+def hanoi(n, start="A", aux="B", end="C"):
+    if n == 1:
+        print("Move disk 1 from ", start, " to tower ", end)
+        return
+    hanoi(n-1, start, end, aux)
+    print("Move disk", n, "from", start, "to", end)
+    hanoi(n-1, aux, start, end)
+\end{verbatim} 
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = 2T(n-1) + O(1)$\\
+    $T(1) = O(1)$
+\end{center}
+
+\begin{sollist}
+    \item $T(n) = 2T(n-1) + O(1)$
+    \item $2(2T(n-2) + O(1)) + O(1)$
+    \item $4T(n-2) + 3O(1)$
+    \item $8T(n-2) + 7O(1)$
+    \item $\dots$
+    \item $2^kT(n-k) + (2^k - 1)O(1)$
+\end{sollist}
+
+So when $k = n-1$, we get:\\
+
+$T(n) = 2^{n-1}T(1) + (2^{n-1} - 1)O(1)$\\
+$= 2^{n-1}O(1) + (2^{n-1} - 1)O(1)$\\
+$= O(2^n)$
+$= \Theta(2^n)$
+
+\item \textbf{Design}: We cannot directly memoize the state of this algorithm, as the same state is not computed again.
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+
+\begin{verbatim}
+    def hanoi(n, start="A", aux="B", end="C"):
+        if n == 1:
+            print("Move disk 1 from ", start, " to tower ", end)
+            return
+        stack = []
+        stack.append((n, start, aux, end))
+        while stack:
+            n, start, aux, end = stack.pop()
+            if n == 1:
+                print("Move disk 1 from ", start, " to tower ", end)
+            else:
+                stack.append((n-1, aux, start, end))
+                stack.append((1, start, aux, end))
+                stack.append((n-1, start, end, aux))
+\end{verbatim}
+
+This is a non-recursive implementation of the towers of Hanoi problem. It uses the stack data structure to simulate the recursive calls, and uses a depth-first search to solve the problem iteratively.
+
+\item \textbf{Correctness}:
+$$P(n): hanoi(n, s, a, e) = \text{Correct moves to solve the towers of Hanoi problem, given s, a, e = A, B, C respectively.}$$
+\textbf{Base Case}: $n = 1$. The function prints the correct move, which is the correct answer, as the base case is trivial. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+By definition, we have:
+\begin{sollist}
+    \item $hanoi(k+1, s, a, e) = hanoi(k, s, e, a) + \text{Move disk from A to C} \text{ to C} + hanoi(k, a, s, e)$
+    \item $= \text{Correct moves to move first K disks from s to a} + \text{Correct move to move largest disk from s to e} + \text{Correst moves to move K disks from a to e}$ (by IH)
+\end{sollist}
+
+Logically, this moves the first $k$ disks to the auxilary tower, moves the largest disk to the end tower, and then moves the $k$ disks from the auxilary tower to the end tower. This is the correct solution to the towers of Hanoi problem.\\
+
+Thus, $P(k) \rightarrow P(k+1)$.\\
+
+\end{enumerate}
+
+\item Need to implement merge sort.
+
+\begin{enumerate}[label=\roman*]
+    \item \textbf{Definition}:\\
+    - Input: Integer Array $A$, Integer $n \geq 0$, denoting the size of $A$\\
+    - Output: Integer Array $A$ such that $A$ is sorted in ascending order.
+
+    \item \textbf{Decomposition}: Merge sort is a divide and conquer strategy, that works by dividing the array into two halves, sorting the two halves, and then merging the two halves. So, we can write our problem as:
+    
+\vspace{1in}
+\begin{verbatim}
+def merge_sort(A, n):
+    def merge(left, right, acc=[]):
+        if len(left) == 0:
+            return acc + right
+
+        if len(right) == 0:
+            return acc + left
+
+        if left[0] < right[0]:
+            acc.append(left[0])
+            return merge(left[1:], right, acc)
+        else:
+            acc.append(right[0])
+            return merge(left, right[1:], acc)
+
+    if n <= 1:
+        return A
+    mid = n // 2
+    left = merge_sort(A[:mid], mid)
+    right = merge_sort(A[mid:], n-mid)
+    return merge(left, right)
+\end{verbatim}
+
+\item \textbf{Deconstruction}: From our decomposition, we know:
+\begin{center}
+    $T(n) = 2T(n/2) + O(n)$\\
+    $T(1) = O(1)$
+\end{center}
+
+\begin{sollist}
+    \item $T(n) = 2T(n/2) + O(n)$
+    \item $2(2T(n/4) + O(n/2)) + O(n)$
+    \item $4T(n/4) + 2O(n/2) + O(n)$
+    \item $8T(n/8) + 4O(n/4) + 3O(n/2) + O(n)$
+    \item $\dots$
+    \item $2^kT(n/2^k) + kO(n/2^k)$
+\end{sollist}
+
+When $n = 2^k, i.e k = \log_2 n$, we get:\\
+$2^{\log_2 n} T(n/2^{\log_2 n}) + \log_2 n O(n/2^{\log_2 n})$\\
+$= nT(1) + \log_2 n O(1)$\\
+$= O(n \log_2 n)$\\
+$= \Theta(n \log_2 n)$
+
+\item \textbf{Design}: We cannot directly memoize the state of this algorithm, as no same state is computed again.
+
+\item \textbf{Iteration}: We can write the function iteratively as follows:
+\begin{verbatim}
+def merge_sort(A, n):
+    def merge(l, r):
+        result = []
+        i, j = 0, 0
+        while i < len(l) and j < len(r):
+            if l[i] < r[j]:
+                result.append(l[i])
+                i += 1
+            else:
+                result.append(r[j])
+                j += 1
+
+        if i < len(l):
+            result.extend(l[i:])
+
+        if j < len(r):
+            result.extend(r[j:])
+        return result
+
+    if len(A) <= 1:
+        return A
+
+    mid = n//2
+    left = A[:mid]
+    right = A[mid:]
+
+    return merge(merge_sort(left, mid), merge_sort(right, n-mid))
+\end{verbatim}
+
+\item \textbf{Correctness}:
+
+$$P(n): merge\_sort(A, n) = A_{\text{sorted}} \text{, where } A_{\text{sorted}} \text{ is A sorted}$$
+\textbf{Base Case}: $n \leq 1$. The function returns $A$, which is the correct answer, as the base case is trivial. \\
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+By definition, we have:
+\begin{sollist}
+    \item $merge\_sort(A, k+1) = merge(merge\_sort(A[:k], k), merge\_sort(A[k:], 1))$
+    \item $merge(A_{\text{sorted}}[:k], A_{\text{sorted}}[k:])$ (IH)
+    \item $A_{\text{sorted}}$
+\end{sollist}
+
+For this, however, we need to prove the correctness of the merge function. Let $n = len(L) + len(R)$, where $L$ and $R$ are two sorted arrays.\\
+$$P(n): merge(L, R) = A, \text{s.t. A is sorted}$$
+
+\textbf{Base Case}: $n = 0$. The function returns an empty array, which is the correct answer, as an empty array is sorted. \\
+
+\textbf{Inductive Hypothesis}: Assume the function works for some $k$, i.e $P(k)$ holds.\\
+
+\textbf{Inductive Step}: Need to show that $P(k+1)$ holds.\\
+
+WLOG, assume $\min(L[0], R[0]) = L[0]$. By definition, we have:
+\begin{sollist}
+    \item $merge(L, R) = [L[0]] + merge(L[1:], R)$
+    \item $[L[0]] + B_{sorted}$ (IH)
+    \item $A_{\text{sorted}}$ (as $L[0] \leq R[0] \implies L[0] \leq B_{sorted}[i],\ \forall i \in [1, ..., k]$)
+\end{sollist}
+
+Thus, $P(k) \rightarrow P(k+1)$.\\
+
+
+\end{enumerate}
+\end{enumerate}
+\end{document}

@@ -1,0 +1,361 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 3},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 3}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+    \item (a)\\
+    \textbf{Claim:} The set of all natural numbers and set of all prime numbers have the same cardinality. \\
+    \textbf{Proof:} N.T.S that there exists a bijection between these two. \\
+    \\
+    Consider $f:\mathbb{N} \rightarrow \mathbb{P}$, where $\mathbb{N}$ is the set of all natural numbers, and $\mathbb{P}$ is the set of all prime numbers.\\
+    Let $f(n) =$ the $n^{th}$ prime number. So, $f(1)$ represents the first prime number ($f(1) = 2$), $f(2)$ represents the second prime number ($f(2) = 3$), and so on.\\
+    \\
+    Proving injective: Need to show that $f(a) = f(b) \rightarrow a = b$.\\
+    This is evident from the definition of $f(n)$, as the $n^{th}$ prime number is unique. So, if $f(a) = f(b)$, then $a = b$ has to hold.\\
+    \\
+    Proving surjective: Need to show that $\forall p \in \mathbb{P}, \exists n \in \mathbb{N}$ s.t $f(n) = p$.\\
+    This is also evident from the definition of $f(n)$, as the $n^{th}$ prime number is unique. So, for any prime number $p$, there exists a natural number $n$ s.t $f(n) = p$.\\
+    \\
+    $\therefore$ There exists a bijection between the set of all natural numbers and the set of all prime numbers. $\blacksquare$\\
+
+    (b) \textbf{Claim:} The set of all points on a circle of radius $R$ and set of all points on a circle of radius $R'$, where $R \neq R'$, have the same cardinality. \\
+    \\
+    \textbf{Proof:} N.T.S that there exists a bijection between these two. \\
+    \\
+    We know that each point on a circle with radius $x$ can be represented by its polar coordinates $(x, \theta)$. So, the set of all points on a circle of radius $R$ can be represented by the set of all polar coordinates $(R, \theta)$. Similarly, the set of all points on a circle of radius $R'$ can be represented by the set of all polar coordinates $(R', \gamma)$.\\
+    \\
+    So, consider the function $f(R, \theta) = (R', \gamma)$. This is a bjiection.\\
+    \\
+    Proving injective: Need to show that $f(a) = f(b) \rightarrow a = b$.\\
+    This is injective because no two points $a, b$ will on circle with radius $R$ won't map to the same point on $R'$. The reason is that if $a \neq b$, then their angles ($\theta$) are different, and thus they map to different points on the second circle. I.e, if $f(a) = f(b)$, then $a = b$.\\
+    \\
+    Proving surjective: Need to show that $\forall p \in \mathbb{P}, \exists n \in \mathbb{N}$ s.t $f(n) = p$.\\
+    Every point on the circle with radius $R'$ can be represented by a point on the circle with radius $R$, identified by the same angle $\theta$. So, for any point on the circle with radius $R'$, there exists a point on the circle with radius $R$ that maps to it.\\
+    \\
+    $\therefore$ There exists a bijection between the set of all points on a circle of radius $R$ and the set of all points on a circle of radius $R'$. $\blacksquare$\\
+
+
+    \item (a) Need to prove $\bigcup_{i=1}^{n} A_i = \left(\bigcap_{i=1}^{n} A_i^c\right)^c$\\
+    \\
+    \textbf{Basis:} (n=1)\\
+    LHS: $\bigcup_{i=1}^{1} A_i = A_1$\\
+    RHS: $\left(\bigcap_{i=1}^{1} A_i^c\right)^c = (A_1^c)^c = A_1$\\
+    So as LHS=RHS, basis holds.\\
+    \\
+    \textbf{Inductive Hypothesis:} Assume that $\bigcup_{i=1}^{k} A_i = \left(\bigcap_{i=1}^{k} A_i^c\right)^c$ for some $k \geq 1$.\\
+    \\
+    \textbf{Inductive Step:} We want to show that $\bigcup_{i=1}^{k+1} A_i = \left(\bigcap_{i=1}^{k+1} A_i^c\right)^c$.\\
+    \\
+    Consider the RHS:
+    \begin{sollist}
+        \item $\left(\bigcap_{i=1}^{k+1} A_i^c\right)^c$
+        \item $\left(A_1^c \cap A_2^c \cap ... \cap A_{k+1}^c\right)^c$
+        \item $\left(A_1^c \cap A_2^c \cap ... \cap A_k^c \right)^c \cup A_{k+1}$
+        \item $\bigcup_{i=1}^{k} A_i \cup A_{k+1}$ (from assumption)
+        \item $\bigcup_{i=1}^{k+1} A_i$
+    \end{sollist}
+
+    So, by PMI, $\bigcup_{i=1}^{k+1} A_i = \left(\bigcap_{i=1}^{k+1} A_i^c\right)^c$.\\
+    \\
+    (b) Need to prove $\bigcap_{i=1}^{n} A_i = \left(\bigcup_{i=1}^{n} A_i^c\right)^c$\\
+    \\
+    \textbf{Basis:} (n=1)\\
+    LHS: $\bigcap_{i=1}^{1} A_i = A_1$\\
+    RHS: $\left(\bigcup_{i=1}^{1} A_i^c\right)^c = (A_1^c)^c = A_1$\\
+    So as LHS=RHS, basis holds.\\
+    \\
+    \textbf{Inductive Hypothesis:} Assume that $\bigcap_{i=1}^{k} A_i = \left(\bigcup_{i=1}^{k} A_i^c\right)^c$ for some $k \geq 1$.\\
+    \\
+    \textbf{Inductive Step:} We want to show that $\bigcap_{i=1}^{k+1} A_i = \left(\bigcup_{i=1}^{k+1} A_i^c\right)^c$.\\
+    \\
+    Consider the RHS:
+    \begin{sollist}
+        \item $\left(\bigcup_{i=1}^{k+1} A_i^c\right)^c$
+        \item $\left(A_1^c \cup A_2^c \cup ... \cup A_{k+1}^c\right)^c$
+        \item $\left(A_1^c \cup A_2^c \cup ... \cup A_k^c \right)^c \cap A_{k+1}$
+        \item $\bigcap_{i=1}^{k} A_i \cap A_{k+1}$ (from assumption)
+        \item $\bigcap_{i=1}^{k+1} A_i$
+    \end{sollist}
+    
+    So, by PMI, $\bigcap_{i=1}^{k+1} A_i = \left(\bigcup_{i=1}^{k+1} A_i^c\right)^c$.\\
+
+\item We can prove this using induction. \\
+\\
+\textbf{Basis:} ($n=1$)\\
+    $(f_1)^{-1}=f_1^{-1}$.
+    LHS = RHS, as $f_1^{-1}$ is the inverse of $f_1$. Basis holds.\\
+    \\
+\textbf{Inductive Hypothesis:} Assume that $(f_k \circ f_{k-1} \circ \cdots \circ f_1)^{-1} = f_1^{-1} \circ f_2^{-1} \circ \cdots \circ f_n^{-1}$ for some $k \geq 1$.\\
+\\
+\textbf{Inductive Step:} We want to show that $(f_{k+1} \circ f_k \circ \cdots \circ f_1)^{-1} = f_1^{-1} \circ f_2^{-1} \circ \cdots \circ f_{k+1}^{-1}$.\\
+Consider the LHS:
+\begin{sollist}
+    \item $(f_{k+1} \circ f_k \circ \cdots \circ f_1)^{-1}$
+    \item $(f_{k+1} \circ (f_k \circ \cdots \circ f_1))^{-1}$
+    \item $((f_k \circ \cdots \circ f_1)^{-1} \circ f_{k+1}^{-1})$ (by De Morgan's Law)
+    \item $(f_1^{-1} \circ \cdots \circ f_k^{-1}) \circ f_{k+1}^{-1}$ (by assumption)
+    \item $f_1^{-1} \circ f_2^{-1} \circ \cdots \circ f_{k+1}^{-1}$
+\end{sollist}
+
+So, by PMI, $(f_n \circ f_{n-1} \circ \cdots \circ f_1)^{-1} = f_1^{-1} \circ f_2^{-1} \circ \cdots \circ f_n^{-1}$.\\
+
+\item (a) This is false. The universe of discourse is $D$. So, the statement $\forall x (x \in A \land x \in D)$ is false, because as $A \subseteq D$, there might exist an element $x \in D$ that is not in $A$.\\
+\\
+(b) This is true. It holds, because $A \subseteq D$, so for the case $A \neq D$, we have $A \subset D$. This implies that $\exists x (x \notin A)$. So, WLOG, this statement holds.\\
+\\
+(c) This is true. It holds because the compliment $A^c$ is defined as: $A^c = \{x \in D | x \notin A\} = D - A = A^c = D \backslash A$. So, $A^c = D \backslash A$ is true.\\
+\\
+(d) This is true. The universe of discourse is $D$. So, the statement $D^c \subseteq A$ is false, $D^c$ is defined as: $D^c = \{x \in D | x \notin D\} = \emptyset$. So, $\emptyset \subseteq A$ is true.\\
+
+\item (a) Given 4 points, the following should hold if it is a square:
+\begin{itemize}
+    \item The distance of the two diagonals is the same.
+    \item The side lengths are the same.
+\end{itemize}
+
+This can be modelled by checking the following conditions:
+\begin{itemize}
+    \item In the set of all distances between all points, there should be only 2 unique distances (the diagonals, and the sides).
+    \item Out of all the distances between all 4 points, there should be 4 distances that are the same (the side length).
+\end{itemize}
+The following python code calculates the number of squares, considering all combinations of subsets in $S\times S$:
+\begin{verbatim}
+from itertools import combinations
+
+S = {1, 2, 3}
+SxS = [(x, y) for x in S for y in S]
+
+
+def distance(p1, p2):
+    return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
+
+
+def is_square(points):
+    distances = sorted(
+        distance(points[i], points[j]) for i in range(4) for j in range(i + 1, 4)
+    )
+    # There should only be 2 unique distances: the diagonal and the side
+    # We sort the distances. So the lowest distance (the side length) should be a total of 4.
+    return len(set(distances)) == 2 and distances.count(distances[0]) == 4
+
+squares = [comb for comb in combinations(SxS, 4) if is_square(comb)]
+print(len(squares))
+\end{verbatim}
+
+From this, we get that the number of squares is \textbf{6}.\\
+\\
+(b) Given 3 points, the following should hold if it is a square:
+\begin{itemize}
+    \item The three points dont form a line
+\end{itemize}
+
+This can be calculated by taking the area formed by the three vertices. If it is not 0, then this must be a valid triangle. By using the formula for the area of a triangle, we can check if the area is 0. The following python code calculates the number of triangles, considering all combinations of subsets in $S\times S$:
+
+\begin{verbatim}
+from itertools import combinations
+
+S = {1, 2, 3}
+SxS = [(x, y) for x in S for y in S]
+
+def area_of_triangle(p1, p2, p3):
+    return abs(
+        p1[0]*p2[1] + p2[0]*p3[1] + p3[0]*p1[1]
+        - p1[1]*p2[0] - p2[1]*p3[0] - p3[1]*p1[0]
+    ) / 2
+
+triangles = [comb for comb in combinations(SxS, 3) if area_of_triangle(*comb) > 0]
+print(len(triangles))
+\end{verbatim}
+
+From this, we get that the number of triangles is \textbf{76}.
+
+
+\item This is a function. To prove it, we need to show that all elements in the domain are mapped to a unique element in the co-domain (i.e, it is well defined).\\
+\\
+All elements are mapped from the domain, which is $[0, n]$, as for all $t \in [0, n]$, the particle must be at some position, so $p(t)$ is defined. Moreover, one value of $t$ maps to one value for the position, as a particle cannot be at two places at the same time. So, the function is well defined.\\
+\\
+The domain of the function is $[0, n]$, and the co-domain is $\mathbb{R}$.\\
+The image of the function is $A = \{ x \in \mathbb{R}\ |\ \exists t \in [0, n] (p(t) = x) \}$.\\
+\\
+The function will be injective if two different times never have the same value. This would be true only if the particle is always moving in a fixed direction, and not stopping. So, it can move to the front or the back, but it must continue in that direction and must not stop. Thus, for any $a = p(x)$ and $a = p(x)$, $b = p(y) \rightarrow a = b$.
+
+\item (a) Given $|A| = |B| = n$. Take one element from A. Since we are looking for a bijective mapping, it must map to only one of the elements in B. So, there are $n$ choices for the first element. Then, taking the second element, there are $n-1$ choices left. Continuing this, we get that, the total number of bijective mappings is $n\times (n-1) \times \cdots \times 1= n!$.\\
+\\
+(b) Given $|A| = |B| = n$. N.T.S that for any $f: A \rightarrow B$, we have:\\
+$$f\ \text{is an injection} \leftrightarrow f\ \text{is a surjection}$$
+
+\textbf{Proving forwards:} Assume f is an injection. We want to show that f is a surjection.\\
+By definition, an injection is a function that maps distinct elements of the domain to distinct elements of the co-domain. Since $|A| = |B| = n$, and f is an injection, it must map all elements of A to B. So, f is a surjection.\\
+\\
+\textbf{Proving backwards:} Assume f is a surjection. We want to show that f is an injection.\\
+By definition, a surjection is a function that ensures that all elements of the co-domain are mapped. Since f is a function, it is well defined. Given that $|A| = |B| = n$, and f is a surjection, it must map all elements of A to B. So, f is an injection.\\
+$\blacksquare$.\\
+\\
+(c) Given $|A| = m$ and $|B| = n$. Need to find number of injections from A to B.\\
+\\
+Since the mapping in injective, each element in A must map to a unique and a different element in B. So, we need to select m elements from A, and then map them to n distinct elements in B. This can be done in $n \times (n-1) \times \cdots \times (n-m+1) = \frac{n!}{(n-m)!}$ ways.\\ 
+
+\item We know that for any $f$, $Img(f) \subseteq Codom(f)$ where $Codom(f)$ is the co-domain of f. Since $f: D \rightarrow D$, we have: $Dom(f) = Codom(f) = D$.\\
+\\
+So, $Img(f) \subseteq Dom(f)$.\\
+
+\item (a) Checking injectivity:\\
+Take some $x_1, x_2$, s.t $f(x_1) = f(x_2)$. f is injective if and only if $x_1 = x_2$.
+\begin{sollist}
+    \item $f(x_1) = f(x_2)$
+    \item $x_1^n = x_2^n$
+    \item $\pm x_1 = x_2$
+\end{sollist}
+So, $f$ is not injective.\\
+\\
+Checking surjectivity:\\
+We need to show that $\forall y \in \mathbb{R}, \exists x \in \mathbb{R}$ s.t $f(x) = y$.\\
+Take $x = y^{\frac{1}{n}}$. Then, $f(x) = (y^{\frac{1}{n}})^n = y$.\\
+So $f$ is surjective.\\
+\\
+So, as f is surjective and not injetive, only the right inverse exist. From the steps above, we can find the right inverse $h(x)$ as $h(x) = x^{\frac{1}{n}}$.\\
+\\
+(b) Checking injectivity:\\
+Take some $x_1, x_2$, s.t $f(x_1) = f(x_2)$. f is injective if and only if $x_1 = x_2$.
+\begin{sollist}
+    \item $f(x_1) = f(x_2)$
+    \item $x_1^n = x_2^n$
+    \item $x_1 = x_2$ (as n is odd)
+\end{sollist}
+So, $f$ is injective.\\
+\\
+Checking surjectivity:\\
+We need to show that $\forall y \in \mathbb{R}, \exists x \in \mathbb{R}$ s.t $f(x) = y$.\\
+Take $x = y^{\frac{1}{n}}$. Then, $f(x) = (y^{\frac{1}{n}})^n = y$.\\
+So $f$ is surjective.\\
+\\
+As $f$ is surjective and injective, it is bijective. So, both the left and right inverses exist, and thus the full inverse exists.\\
+\\
+Left Inverse: $g(x) = x^{\frac{1}{n}}$. $g(f(x)) = (x^n)^{\frac{1}{n}} = x$.\\
+Right Inverse: $h(x) = x^{\frac{1}{n}}$. $f(h(x)) = (x^\frac{1}{n})^n = x$.\\
+So, the full inverse is $f^{-1}(x) = x^{\frac{1}{n}}$.\\
+\\
+(c) Checking injectivity:\\
+The function f is only injective if each element maps to a unique and distinct element in the codomain. However, the element 0 lies in the domain, and $ln(x)$ is not defined for $x = 0$. So, $f$ is not injective.\\
+\\
+Checking surjectivity:\\
+We need to show that $\forall y \in \mathbb{R}, \exists x \in \mathbb{R^+} \cup \{0\}$ s.t $f(x) = y$.\\
+\\
+Consider $h(x) = e^x$. Then, $f(h(x)) = ln(e^x) = x,\ \forall x \in \mathbb{R}$.\\
+So, $f$ is surjective.\\
+\\
+So, as $f$ is surjective and not injetive, only the right inverse exist. From the steps above, we can find the right inverse $h(x)$ as $h(x) = e^x$.\\
+
+\item Consider the function $f: A \rightarrow B$, s.t it's inverse exists. Now, since the inverse exists, we know it is bijective. Assume there exist two inverses, $g, h$, s.t both of them are inverses of $f$. N.T.S that $g = h$.\\
+\\
+By the property of inverses, we know that $f \circ g = I_B$ and $f \circ h = I_B$. So, we have $f(g(b)) = b$ and $f(h(b)) = b$, $\forall b \in B$. Take some $b \in B$. Then, $f(g(b)) = f(h(b)) = b$.\\
+\\
+Since $f$ is injective, we have $g(b) = h(b)$. So, $g = h$. WLOG, this holds for all $b \in B$. Now, we also know that the inverse of a bijection is a bijection. This implies that $\forall b \in B (g(b)=h(b))$. So, $g = h$. $\blacksquare$
+\end{enumerate}
+
+\section{$\neg$ Straightforward}
+\begin{enumerate}
+    \item (a) N.T.S that for $(a, b) \coloneqq \{\{a\}, \{a, b\}\}$, $(a_1, b_1) = (a_2, b_2) \leftrightarrow (a_1 = a_2) \land (b_1 = b_2)$.\\
+    \\
+    \textbf{Proving forwards:} Assume $(a_1, b_1) = (a_2, b_2)$. We want to show that $((a_1 = a_2) \land (b_1 = b_2))$.\\
+    By the definition of the ordered pair, we have: $\{\{a_1\}, \{a_1, b_1\}\} = \{\{a_2\}, \{a_2, b_2\}\}$.\\
+    Comparing the singletons, we get:
+    $\{a_1\} = \{a_2\}$. So, $a_1 = a_2$.\\
+    Comparing the set with 2 elements, we get:
+    $\{a_1, b_1\} = \{a_2, b_2\}$. As we know $a_1 = a_2$, we know that $b_1 = b_2$.\\
+    \\
+    So, $(a_1 = a_2) \land (b_1 = b_2)$. Therefore, $(a_1, b_1) = (a_2, b_2) \rightarrow ((a_1 = a_2) \land (b_1 = b_2))$.\\
+    \\
+    \textbf{Proving backwards:} Assume $(a_1 = a_2) \land (b_1 = b_2)$. We want to show that $(a_1, b_1) = (a_2, b_2)$.\\
+    Consider $(a_1, b_1)$ and $(a_2, b_2)$. By the definition of the ordered pair, we have: $\{\{a_1\}, \{a_1, b_1\}\} \text{ and } \{\{a_2\}, \{a_2, b_2\}\}$.\\
+    Need to show equality.
+    \\
+    As $a_1 = a_2$, we have $\{a_1\} = \{a_2\}$.\\
+    As $b_1 = b_2$, we have $\{a_1, b_1\} = \{a_2, b_2\}$.\\
+    \\
+    So, $(a_1, b_1) = (a_2, b_2)$. Therefore, $((a_1 = a_2) \land (b_1 = b_2)) \rightarrow (a_1, b_1) = (a_2, b_2)$.\\
+    \\
+    This proves that $(a_1, b_1) = (a_2, b_2) \leftrightarrow ((a_1 = a_2) \land (b_1 = b_2))$. $\blacksquare$\\
+    \\
+(b) We know that $(a, b, c) = ((a, b), c)$. By definition, $(a, b) = \{\{a\}, \{a, b\}\}$. Let $x = (a, b)$. Then, $(a, b, c) = (x, c)$:
+\begin{sollist}
+    \item $(x, c)$
+    \item $\{\{x\}, \{x, c\}\}$
+    \item $\{\{\{a\}, \{a, b\}\}, \{\{\{a\}, \{a, b\}\}, c\}\}$ (as we defined $x = (a, b)$)
+\end{sollist}
+$\therefore\ (a, b, c) = \{\{\{a\}, \{a, b\}\}, \{\{\{a\}, \{a, b\}\}, c\}\}$\\
+\\
+(c) To create a recursive definition for the n-tuple $(x_1, x_2, \ldots, x_n)$, we have to use the property that $(a, b, c) = ((a, b), c)$.
+\begin{itemize}
+    \item ($n = 2$). This is the base case, as you need at least 2 elements to create an ordered pair. For $(x_1, x_2)$, we already have a definition for this:\\
+    $$(x_1, x_2) = \{\{x_1\}, \{x_1, x_2\}\}$$
+    \item ($n > 2$). We need a recursive relation here. We already know how to break the problem down. So, for a n-tuple $(x_1, x_2, \ldots, x_n)$, we can define it as: $(x_1, x_2, \ldots, x_n) = ((x_1, x_2, \ldots, x_{n-1}), x_n)$.\\
+    This breaks the problem down into a smaller problem of size $n-1$, which we already know how to solve. So, we can use this to define the n-tuple.
+\end{itemize}
+\end{enumerate}
+
+\section{Bonus}
+\begin{enumerate}
+    \item Let $S$ be the set of all functions from $A$ to $B$. Let $S_i$ be a subset of $S$, which is the set of all functions that maps $A$ to all, but the $i^th$ element of $B$. So, all sets $S_i$ are non-surjective. So, the total number of surjective functions is:
+    $$|S| - |S_1 \cup S_2 \cup \cdots \cup S_l|$$
+
+    Now, we know the following:
+    \begin{itemize}
+        \item The number of functions excluding 1 element in $B$ are $(l-1)^k$, as there are $l-1$ choices for each element in $A$.
+        \item So, the number of functions excluding $n$ elements in $B$ are $(l-n)^k$.
+    \end{itemize}
+    By the principle of inclusion-exclusion, we have:
+    $$|S_1 \cup S_2 \cup \cdots \cup S_l| = \sum_{i=0}^{l}(-1)^k\binom{l}{i}(l-i)^k$$
+    We also know that the total number of functions from $A$ to $B$ are $l^k$, so $|S|$ = $l^k$. So we get that the total number of surjective functions as:
+    $$l^k - \sum_{i=0}^{l}(-1)^k\binom{l}{i}(l-i)^k$$
+    
+\end{enumerate}
+\end{document}

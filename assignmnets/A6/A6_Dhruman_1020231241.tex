@@ -1,0 +1,327 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+\usepackage{tkz-berge}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{graphs,graphs.standard}
+\usetikzlibrary{automata, positioning, arrows}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 6},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 6}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+\item Consider the following grammars:
+\begin{itemize}
+\item $G_1 =< \{a, b, c\}, \{S, A\}, S, S \rightarrow aS\ |\ bA, A \rightarrow cA\ |\ \epsilon >$
+\item $G_2 =< \{a, b, c\}, \{S, A, B, C\}, S, S \rightarrow A, A \rightarrow aA\ |\ B, B \rightarrow bC, C \rightarrow cC\ |\ \epsilon >$
+\end{itemize}
+
+(a) Check if the following strings belong to L(G1) and/or L(G2). If a string belongs to a language,
+show its derivation. If a string does not belong to a language, justify.
+\\
+
+$L(G_1)$:\\
+i. $S \rightarrow aS \rightarrow abA \rightarrow abcA \rightarrow abc$. Thus $abc \in L(G1)$.\\
+ii. $S \rightarrow aS \rightarrow aaS \rightarrow aabA \rightarrow aabcA \rightarrow aabccA \rightarrow aabcccA \rightarrow aabccc$. Thus $aabccc \in L(G1)$.\\
+iii. $S \rightarrow aS \rightarrow aaS \rightarrow aabA$. Thus $aacc \notin L(G1)$.\\
+iv. $S \rightarrow aS \rightarrow abA$. Thus $abbc \notin L(G1)$.\\
+
+$L(G_2)$:\\
+i. $S \rightarrow A \rightarrow aA \rightarrow aB \rightarrow abC \rightarrow abcC \rightarrow abc$. Thus $abc \in L(G2)$.\\
+ii. $S \rightarrow A \rightarrow aA \rightarrow aaA \rightarrow aaB \rightarrow aabC \rightarrow aabcC \rightarrow aabccC \rightarrow aabcccC \rightarrow aabccc$. Thus $aabccc \in L(G2)$.\\
+iii. $S \rightarrow A \rightarrow aA \rightarrow aaA \rightarrow aabB$. Thus $aacc \notin L(G2)$.\\
+iv. $S \rightarrow A \rightarrow aA \rightarrow aB \rightarrow abC$. Thus $abbc \notin L(G2)$.\\
+
+(b) Reason if $G_1$ and $G_2$ are regular grammars according to Chomsky's Hierarchy.\\
+
+A grammar is considered regular if all of its productions are of the form:
+\begin{itemize}
+    \item $A\rightarrow \epsilon$
+    \item $A\rightarrow a$
+    \item $A\rightarrow aB$
+\end{itemize}
+
+Now, analysing $G_1$:
+$S \rightarrow aS\ |\ bA$ (1)\\
+$A \rightarrow cA\ |\ \epsilon$ (2)\\
+
+This fits the definition of a regular grammar. Thus, $G_1$ is a regular grammar.\\
+
+Now, analysing $G_2$:\\
+$S \rightarrow A$ (1)\\
+$A \rightarrow aA\ |\ B$ (2)\\
+$B \rightarrow bC$ (3)\\
+$C \rightarrow cC\ |\ \epsilon$ (4)\\
+
+Rules (1) and (2) do not fit the definition of a regular grammar. Thus, $G_2$ is not a regular grammar.\\
+
+(d) In part (c), we prove that $L(G_1) = L(G_2)$. In part (b), we also showed that $G_1$ is a regular grammar, while $G_2$ is not. However, since $L(G_1) = L(G_2)$, this means that $L(G_2)$ is regular as well. This holds because every regular grammar is a type 2 grammar, while every type 2 grammar is not necessarily regular. Thus, $L(G_2)$ is a regular language.\\
+
+\newpage
+
+\item (a) Proof by counter example:\\
+
+Consider the string $ba$. Now, we see that if $G_r \equiv \{A\rightarrow aB, B\rightarrow aB\ |\ bB\ |\ \epsilon\}$, we cannot generate the string $ba$. Proof:\\
+$A \rightarrow aB$. This means that the string must start with an $a$. Thus, $ab \notin L(G_r)$.\\
+
+Now, consider $G_l \equiv \{A\rightarrow Ba,\ B\rightarrow Ba\ |\ Bb\ |\ \epsilon\}$. We can generate the string $ba$ using this grammar. Proof:\\
+$A \rightarrow Ba \rightarrow Bba \rightarrow ba$. Thus, $ba \in L(G_l)$.\\
+
+
+So, we see that $L(G_l) \neq L(G_r)$.\\
+
+(b) The steps below convert a left linear grammar to a right linear grammar:
+\begin{itemize}
+\item If the start symbol, say $S$, is on the right of any production rule in $G_r$, then we add a new start symbol $S'$, and define the rule: $S' \rightarrow S$. If $S \rightarrow \epsilon$, add $S' \rightarrow \epsilon$.
+\item For every production in $G_r$ of the form $A\rightarrow xB$, we replace it with $B\rightarrow Ax$.
+\item If there is a production of the form $A\rightarrow x$, we keep it as it is.\\
+\end{itemize}
+
+(c)
+\begin{itemize}
+\item From our definition, we do not need a new start symbol, as the start symbol is only on the left.
+\item We have $A\rightarrow aB$, which we convert to $B\rightarrow Aa$.
+\item We have $B\rightarrow aB\ |\ bB\ |\ \epsilon$, which we convert to $B\rightarrow Ba\ |\ Bb\ |\ \epsilon$.\\
+\end{itemize}
+
+Thus, our right linear grammar is $G_r \equiv \{B\rightarrow Ba\ |\ Bb\ |\ \epsilon,\ A\rightarrow Ba\}$.\\
+
+(d) In part (b), we are essentially reversing the direction of the productions. Thus, if we reverse the direction of the productions in $G_r$, we get $G_l$. Now, we have to show that this is correct.\\
+
+WLOG, take some sentence $w$ in $L(G_r)$. We can derive $w$ in $G_r$ by starting with the start symbol, and applying the productions in $G_r$ in the order they are given. Now, as per our rules, there is an exact corresponding set of reversed productions in $G_l$ where it is possible to reach back to S (via the new productions).
+\newpage
+
+\item (a) We can represent the DFA as below:
+\begin{itemize}
+    \item $q_0$: Initial state, no input read yet.
+    \item $q_{ae}$: First character 'a', even number of characters read.
+    \item $q_{ao}$: First character 'a', odd number of characters read.
+    \item $q_{be}$: First character 'b', even number of characters read.
+    \item $q_{bo}$: First character 'b', odd number of characters read.
+\end{itemize}
+
+Transitions:
+\begin{itemize}
+    \item From $q_0$ on 'a': Move to $q_{ao}$.
+    \item From $q_0$ on 'b': Move to $q_{bo}$.
+    \item From $q_{ae}$ on 'a': Stay in $q_{ae}$.
+    \item From $q_{ae}$ on 'b': Move to $q_{bo}$.
+    \item From $q_{ao}$ on 'a': Move to $q_{ae}$.
+    \item From $q_{ao}$ on 'b': Stay in $q_{ao}$.
+    \item From $q_{be}$ on 'a': Move to $q_{ao}$.
+    \item From $q_{be}$ on 'b': Stay in $q_{be}$.
+    \item From $q_{bo}$ on 'a': Stay in $q_{bo}$.
+    \item From $q_{bo}$ on 'b': Move to $q_{be}$.
+\end{itemize}
+
+Accepting States
+\begin{itemize}
+    \item $q_{ae}$: Accepts if $w_1 = w_n$ and $|w| \equiv 0 \pmod{2}$.
+    \item $q_{bo}$: Accepts if $w_1 \neq w_n$ and $|w| \equiv 1 \pmod{2}$.
+\end{itemize}
+
+(b) $M_s$:\\
+\begin{tikzpicture}[->, >=stealth, auto, node distance=3cm, thick, initial text=, initial where=left]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state, accepting] (qaa) [above right of=q0] {$q_{aa}$};
+    \node[state] (qa) [right of=qaa] {$q_a$};
+    \node[state, accepting] (qbb) [below right of=q0] {$q_{bb}$};
+    \node[state] (qb) [right of=qbb] {$q_b$};
+
+    \path   (q0) edge node {a} (qaa)
+            (q0) edge node {b} (qbb)
+            (qaa) edge[loop above] node {a} (qaa)
+            (qaa) edge[bend left] node {b} (qa)
+            (qa) edge[bend left] node {a} (qaa)
+            (qa) edge[loop right] node {b} (qa)
+            (qbb) edge[loop below] node {b} (qbb)
+            (qbb) edge[bend left] node {a} (qb)
+            (qb) edge[bend left] node {b} (qbb)
+            (qb) edge[loop right] node {a} (qb);
+\end{tikzpicture}
+
+$M_d$:\\
+\begin{tikzpicture}[->, >=stealth, auto, node distance=3cm, thick, initial text=, initial where=left]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state] (qa) [above right of=q0] {$q_a$};
+    \node[state, accepting] (qab) [right of=qa] {$q_{ab}$};
+    \node[state] (qb) [below right of=q0] {$q_b$};
+    \node[state, accepting] (qba) [right of=qb] {$q_{ba}$};
+
+    \path   (q0) edge node {a} (qa)
+            (q0) edge node {b} (qb)
+            (qa) edge[loop above] node {a} (qa)
+            (qa) edge[bend left] node {b} (qab)
+            (qb) edge[loop below] node {b} (qb)
+            (qb) edge[bend left] node {a} (qba)
+            (qab) edge[loop right] node {b} (qab)
+            (qab) edge[bend left] node {a} (qa)
+            (qba) edge[loop right] node {a} (qba)
+            (qba) edge[bend left] node {b} (qb);
+\end{tikzpicture}
+
+$M_e$:\\
+\begin{tikzpicture}[->, >=stealth, auto, node distance=3cm, thick, initial text=, initial where=left]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state] (qo) [right of=q0] {$q_o$};
+    \node[state, accepting] (qe) [right of=qo] {$q_{e}$};
+
+    \path   (q0) edge node {a, b} (qo)
+            (qo) edge[bend left] node {a, b} (qe)
+            (qe) edge[bend left] node {a, b} (qo);
+\end{tikzpicture}
+
+$M_o$:\\
+\begin{tikzpicture}[->, >=stealth, auto, node distance=3cm, thick, initial text=, initial where=left]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state, accepting] (qo) [right of=q0] {$q_o$};
+    \node[state] (qe) [right of=qo] {$q_{e}$};
+
+    \path   (q0) edge node {a, b} (qo)
+            (qo) edge[bend left] node {a, b} (qe)
+            (qe) edge[bend left] node {a, b} (qo);
+\end{tikzpicture}
+
+(c) We see that $L$ needs a string that has even length and the same start and end character, or a string that has odd length and different start and end characters. Thus, we can represent $L$ as $L = (L_s \cap L_e) \cup (L_d \cap L_o)$.\\
+
+(d) From (c) we have $  $. We can thus exploit the properties of NFAs to construct an NFA for $L$.\\\
+
+
+
+\newpage
+
+\item Solving for $L_I$:\\
+(a)\\
+\begin{tikzpicture}[shorten >=1pt, node distance=3cm, on grid, auto]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state] (q1) [right=of q0] {$q_1$};
+    \node[state, accepting] (qf) [below=of q0] {$q_f$};
+
+    \path[->]
+    (q0) edge[bend left, above] node {0,1} (q1)
+    (q1) edge[bend left, below] node {0} (q0)
+    (q0) edge node {0, 1} (qf);
+\end{tikzpicture}
+
+(b) Consider the regular grammar $G \equiv \{S\rightarrow 1A \ |\ 0A,\ A\rightarrow 0B\ |\ \epsilon,\ B\rightarrow 1A \ |\ 0A\ |\ \epsilon \}$\\
+
+Take $w_a = 10101$, and $w_r = 10111$. We can see that $w_a \in L_I$, while $w_r \notin L_I$. Now, let's derive $w_a$:\\
+
+$S \rightarrow 1A \rightarrow 10B \rightarrow 101A \rightarrow 1010B \rightarrow 10101A \rightarrow 10101$. Thus, $w_a \in L_I$.\\
+
+Now, let's derive $w_r$:\\
+
+$S \rightarrow 1A \rightarrow 10B \rightarrow 101A$. Thus, $w_r \notin L_I$.\\
+
+(c) By definition, any means any sentence $w \in L$ is non-empty and has a 0 in every even position.\\
+
+Now, when we look at $L(N)$, we see that it accepts 0 at all positions, but only 1 at odd positions. Thus, $L(N) = L$. Now, when we see $L(G)$, it places no constraints on odd positions and requires '0' at even positions Thus, $L(G) = L$. Thus, $L(N) = L(G) = L$.\\
+
+Solving for $L_{II}$:\\
+
+States:\\
+$q_{00}, q_{10}, q_{11}, \cdots$, where each $q_{ij}$ represents a string prefix with exactly $i$ ones and $j$ zeros.\\
+
+Transitions:\\
+$0$ transitions from $q_{ij}$ to $q_{i(j+1)}$\\
+$1$ transitions from $q_{ij}$ to $q_{(i+1)j}$\\
+
+Accepting States:\\
+$q_{ij}$ is an accepting state if $|i - j| \leq 1$.\\
+
+(b) Consider the following production rules for the regular grammar $G_{II}$:\\
+
+For each variable $A_{ij}$, we have the following rule:\\
+$A_{ij} \rightarrow 0A_{i(j+1)} | 1A_{(i+1)j} |$\\
+$A_{ij} \rightarrow \epsilon$ if $|i-j| \leq 1$\\
+
+Now, take $w_a = 01010$ and $w_r = 00011$. Deriving $w_a$:\\
+$S \rightarrow 0A_{01} \rightarrow 01A_{11} \rightarrow 010A_{12} \rightarrow 0101A_{22} \rightarrow 01010A_{23} \rightarrow 01010$. Thus, $w_a \in L_{II}$.\\
+
+Now, deriving $w_r$:\\
+$S \rightarrow 0A_{01} \rightarrow 00A_{02} \rightarrow 000A_{03} \rightarrow 0001A_{13} \rightarrow 00011A_{23}$. Thus, $w_r \notin L_{II}$.\\
+
+(c)
+\end{enumerate} 
+
+\section{$\neg$ Straightforward}
+\begin{enumerate}
+\item A language $L$ is regular if and only if there exists a DFA $M$ such that $L = L(M)$. So, lets construct a DFA $M$ for the language $L$:\\
+
+States:\\
+Let any state $q_{id}$ be denoted where i is the current length of the sentence being processed, and d is the difference between the number of 1s and 0s in the sentence.\\
+
+Transitions:\\
+0: transition from $q_{id}$ to $q_{i+1,d-1}$\\
+1: transition from $q_{id}$ to $q_{i+1,d+1}$\\
+
+Start State:\\
+$q_{0,0}$\\
+
+Accepting States:\\
+$q_{n,d}, \forall d > 0$, where $n$ is the length of the sentence.\\
+
+This is a DFA that accepts the language $L_n$. Thus, $L_n$ is regular.\\
+
+(b) (i) The string u will have a length of $n-k$. According to the definition of $L_n$, every prefix $w_i$ ($0 \leq i \leq n$) contains more 1s than 0s. Thus for u, the prefix will have more 1s than 0s. Thus, $u \in L_{n-k}$.\\
+
+(ii) Assume that some $u$ which starts with 0 is in $L_n$ for some n. Now, we know by definition that every prefix of $u$ has more 1s than 0s. Thus, the prefix of $u$ will have more 1s than 0s. However, this is a contradiction at $i = 1$, thus $u \notin L_n$.\\
+
+
+\end{enumerate} 
+
+
+\end{document}

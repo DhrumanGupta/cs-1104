@@ -1,0 +1,176 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+\usepackage{tkz-berge}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{graphs,graphs.standard}
+\usetikzlibrary{automata, positioning, arrows}
+\usepackage{longtable}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 6},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 6}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+\item (a) Entropy is given by: $H(x) = -\sum_{i=1}^{n} p(x_i) \log_2 p(x_i)$. We have $X = 
+\{a : 0.80, b : 0.10, c : 0.05, d : 0.03, e : 0.017, f : 0.003\}$ 
+
+\begin{sollist}
+    \item $H(X) = -0.80 \log_2 0.80 - 0.10 \log_2 0.10 - 0.05 \log_2 0.05 - 0.03 \log_2 0.03 - 0.017 \log_2 0.017 - 0.003 \log_2 0.003$
+    \item $H(X) = 1.0827$
+\end{sollist}
+
+(b) Design a Huffman Code $C: X \rightarrow {0, 1}^+$ for $X$\\
+Following the huffman encoding algorithm, we get the following encoding for the given probabilities:
+
+\begin{sollist}
+    \item $a : 0.80 \rightarrow 1$
+    \item $b : 0.10 \rightarrow 00$
+    \item $c : 0.05 \rightarrow 010$
+    \item $d : 0.03 \rightarrow 0111$
+    \item $e : 0.017 \rightarrow 01101$
+    \item $f : 0.003 \rightarrow 01100$
+\end{sollist}
+
+(c) The average length $L(C)$ of the code is given by: $L(C) = \sum_{i=1}^{n} p(x_i) \cdot l(x_i)$ where $l(x_i)$ is the length of the encoding of $x_i$ in $C$.\\
+
+\begin{sollist}
+    \item $L(C) = 0.80 \cdot 1 + 0.10 \cdot 2 + 0.05 \cdot 3 + 0.03 \cdot 4 + 0.017 \cdot 5 + 0.003 \cdot 5$
+    \item $L(C) = 1.16$
+\end{sollist}
+
+The efficiency of the code is given by: $\eta = \frac{H(X)}{L(C)}$
+\begin{sollist}
+    \item $\eta = \frac{1.0827}{1.16}$
+    \item $\eta = 0.9339$
+\end{sollist}
+
+(d) Encoding $baaaacbadaafaaae$ to X:
+\begin{sollist}
+    \item $baaaacbadaafaaae \rightarrow 0011110100010111110110011101101$ 
+\end{sollist}
+
+Also, since no code is a prefix of another code, the code is uniquely decodable.
+
+(e) FSM:
+\begin{sollist}
+    \item 1: a
+    \item 0: check next item
+    \item 0: b
+    \item 1: check next item
+    \item 0: c
+    \item 1: check next item
+    \item 1: d
+    \item 0: check next item
+    \item 1: e
+    \item 0: f
+\end{sollist}
+
+\item \begin{align*}
+    P(i) & = 0.2, & P(s) & = 0.2 \\
+    P(e) & = 0.15 \\
+    P(t) & = 0.1, & P(o) & = 0.1 \\
+    P(u) & = 0.1, & P(a) & = 0.1 \\
+    \end{align*}
+
+\item We will prove this by proving both ways.\\
+
+Forward: Prefix-free implies instantaneous.\\
+Suppose C is a prefix-free code. Consider a sequrence of codewords. Since C is prefix-free, no codeword is a prefix of another. When we decode the sequence, we can decode each codeword as soon as we see it. Hence, C is an instantaneous code.\\
+
+Backward: Instantaneous implies Prefix-free.\\
+Now, suppose C is an instantaneous code. Consider a sequence of codewords. Since C is instantaneous, we can decode each codeword as soon as we see it. Since we can decode each codeword as soon as we see it, no codeword is a prefix of another. Hence, C is a prefix-free code.\\
+
+Thus, we have proved that a code is prefix-free if and only if it is instantaneous.
+
+\item TODO
+\item TODO
+\newpage 
+
+\item (a) We need $r$ such that $2^r \geq n + r + 1$. We have $n = 4$. Thus, we need $r$ such that $2^r \geq 5 + r$. This solves to $r = 3$.\\
+
+(b) The placement would be: $p_1 p_2 d_1 p_3 d_2 d_3 d_4$.
+
+(c) The hamming code we get is:\\
+\begin{longtable}[c]{| c | c |}
+Dataword & Codeword\\
+\hline
+0000 & 0000000\\
+0001 & 1101001\\
+0010 & 0101010\\
+0011 & 1000011\\
+0100 & 1001100\\
+0101 & 0100101\\
+0110 & 1100110\\
+0111 & 0001111\\
+1000 & 1110000\\
+1001 & 0011001\\
+1010 & 1011010\\
+1011 & 0110011\\
+1100 & 0111100\\
+1101 & 1010101\\
+1110 & 0010110\\
+1111 & 1111111
+\end{longtable}
+
+(d) (i) $aaabaaaadaaaaaaaafaaaaabaaacaa = 11100111101111111111101100111110011101011$\\
+(ii) $0001\ 1100\ 1111\ 0111\ 1111\ 1111\ 0110\ 0111\ 1100\ 1110\ 1011$\\
+Now, when we hamming encode them, we get:\\
+$1101001\ 1000011\ 1111111\ 0110011\ 1111111\ 0111100\ 0010110\ 1100110\ 1110000\ 1010101\ 0011001$\\
+
+\end{enumerate} 
+
+
+\end{document}

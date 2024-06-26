@@ -1,0 +1,373 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\newlist{sollist}{itemize}{1}
+\setlist[sollist]{label=$\implies$}
+\usepackage{tkz-berge}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{graphs,graphs.standard}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 6},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 6}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Dhruman Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+\begin{enumerate}
+    \item (a) \textbf{Recurrence:} We want to find out the number of ways in which a program can process an array of size n, given that the program can process 1, 2, or 5 elements at once.\\
+    
+    \textbf{Base Cases:} For $n = 0$, there is only one way to process the array, i.e., by not processing it at all. For $n = 1$, there is only one way to process the array, i.e., by processing the single element. For $n=2$, there are two ways to process the array, i.e., by processing the two elements together or by processing them individually. Continuing this, we get the following values:\\
+
+    $a_{0} = 1$; [[]]\\
+    $a_{1} = 1$; [[1]]\\
+    $a_{2} = 2$; [[1, 1], [2]]\\
+    $a_{3} = 2 + 1 = 3$; [[1, 1, 1], [1, 2], [2, 1]]\\
+    $a_{4} = 2 + 3 = 5$; [[1, 1, 1, 1], [1, 1, 2], [1, 2, 1], [2, 1, 1], [2, 2]]\\
+
+    Thus, now, we can get a recurrence relation, after our base cases have been established. The recurrence is that of a simple counting method. We sum the possible ways of proessing the array of size $n-i$, for each step $i$, we can take at $n$. So we get the recurrence:
+    $$
+    a_n = \begin{cases}
+        1 & \text{n=0}\\
+        1 & \text{n=1}\\
+        2 & \text{n=2}\\
+        3 & \text{n=3}\\
+        5 & \text{n=4}\\
+        a_{n-1} + a_{n-2} + a_{n-5} & \text{otherwise}
+    \end{cases}
+    $$
+
+
+    (b) As found in (a), the bases cases are:
+    $a_{0} = 1$;\\
+    $a_{1} = 1$;\\
+    $a_{2} = 2$;\\
+    $a_{3} = 2 + 1 = 3$;\\
+    $a_{4} = 2 + 3 = 5$;\\
+
+    (c) We get a generating function for the recurrence relation as follows:
+    \begin{align*}
+A(x) &= \sum_{n\geq 0} a_n x^n = \sum_{n \geq 5} (a_{n-1}+a_{n-2}+a_{n-5})x^n + a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4\\
+&= x(\sum_{n \geq 4} a_n x^n) + x^2(\sum_{n \geq 3} a_n x^n) + x^5(\sum_{n \geq 0} a_n x^n) + 1 + x + 2x^2 + 3x^3 + 5x^4\\
+&= x(A(x) - 1 - x - 2x^2 - 3x^3) + x^2(A(x) - 1 - x - 2x^2) + x^5A(x) + 1 + x + 2x^2 + 3x^3 + 5x^4
+    \end{align*}
+$A(x)(1-x-x^2-x^5) = 1 + x + 2x^2 + 3x^3 + 5x^4 -x - x^2 -2x^3 - 3x^4 - x^2 -x^3 - 2x^4 = 1$
+$$A(x) = \frac{1}{1-x-x^2-x^5}$$
+
+\newpage
+
+\item (a) \textbf{Recurrence:} Suppose given $n$, we know there are $a_n$ valid strings. That is, that there are $a_n$ number of binary strings of length $n$, that contain the substring "10". Now, let $i_n$ be the number of invalid strings, that do not satisfy this. We know they are mutually exclusive and exhaustive. Thus, we have that $a_n + i_n = 2^n$.Now, let's consider the last character of the string. It can either be 0, or 1.
+\begin{itemize}
+    \item If it is a 0, either there is a valid substring in the $n-1$ portion of the string ($a_{n-1}$ options), or that we can take any of the invalid strings of length $n-2$, and pad a 1 at the end ($i_{n-2}$ options).
+    \item If the last character is a 1, then the string is only valid if the rest of the $n-1$ length string has a valid substring ($a_{n-1}$ options).
+\end{itemize}
+
+So, our total number of solutions at $n$ are:
+$$
+    a_n = a_{n-1} + i_{n-2} + a_{n-1} = 2a_{n-1} + i_{n-2} = 2a_{n-1} + 2^{n-2} - a_{n-2}$$
+$$
+    a_n = 2a_{n-1} + 2^{n-2} - a_{n-2}
+$$
+
+(b) \textbf{Base Cases:} At $n=0, n=1$, there are 0 strings that contain the substring "10", as their length is less than 2. At $n=2$, there is only 1 string, "10", which contains itself. So we get the base cases:\\
+$a_0 = 0$;\\
+$a_1 = 0$;\\
+$a_n = 2a_{n-1} + 2^{n-2} - a_{n-2}\ \ (n \geq 2)$;\\
+
+(c) \textbf{Generating Function:} We can get the generating function for the recurrence relation as follows:
+\begin{align*}
+    A(x) &= \sum_{n\geq 0} a_n x^n = \sum_{n \geq 2} (2a_{n-1}+2^{n-2}-a_{n-2})x^n + a_0 + a_1 x\\
+    &= 2x(\sum_{n \geq 1} a_n x^n) + x^2(\sum_{n \geq 0} 2^n x^n) - x^2(\sum_{n \geq 0} a_n x^n)\\
+    &= 2x(A(x)) + \frac{x^2}{1 - 2x} - x^2(A(x))
+        \end{align*}
+$A(x)(1-2x+x^2) = \frac{x^2}{1 - 2x}$
+$$A(x) = \frac{x^2}{(1-2x)(1-2x+x^2)}=\frac{(1-2x+x^2) - (1-2x)}{(1-2x)(1-2x+x^2)} = \frac{1}{1-2x} - \frac{1}{(1-x)^2}$$
+$=\sum_{n \geq 0} (2x)^n - \sum_{n \geq 0} {(n+1) x^n} = \sum_{n \geq 0} (2^n - n - 1)x^n$\\
+
+So, in closed form, we get::
+$a_n = 2^n - n - 1$\\
+
+(d) Verifying for $n=4$. By our formula, we get $a_4 = 2^4 - 4- 1 = 11$. All the possible strings of length 4 are (invalid ones are highlighted red):
+\begin{alignat*}{3}
+    \color{red}{0000} & \ \ \ \color{red}{0001}&  \ \ \  0010 &  \ \ \  \color{red}{0011}\\
+    0100 & \ \ \ 0101&  \ \ \  0110 &  \ \ \  \color{red}{0111}\\
+    1000 & \ \ \ 1001&  \ \ \  1010 &  \ \ \  1011\\
+    1100 & \ \ \ 1101&  \ \ \  1110 &  \ \ \  \color{red}{1111}
+\end{alignat*}
+
+There are 11 strings that contain the substring "10". Thus, our formula is correct.
+
+\newpage
+
+\item (a) \textbf{Recurrence:} Consider a string of length $n$. We want to find the number of strings of length $n$ s.t no two consecutive digits are prime. Let this be deonted by $a_n$. Consider the $n$th digit. It can either be prime, or not.
+\begin{itemize}
+    \item If the $n$th digit is composite, then the rest of the $n-1$ string must satisfy the criteria, and every string that does so is also a valid string. (There are $a_{n-1}$ such strings).
+    \item If the $n$th digit is prime, then the $n-1$th digit must be composite. So, the rest of the $n-2$ string must satisfy the criteria, and every string that does so is also a valid string. (There are $a_{n-2}$ such strings).
+\end{itemize}
+
+Now, we know that there are $4$ prime numbers less than $10$, and $6$ composite numbers. So, the total number of strings of length $n$ is:
+$$
+    a_n = 6a_{n-1} + 4*6a_{n-2} = 6a_{n-1} + 24a_{n-2}
+$$
+
+(b) \textbf{Base Cases:} For $n=0$, there is only the empty string, and it is valid. For $n=1$, all 10 strings are valid, as there are no consecutive digits. So:\\
+$a_0 = 1$\\
+$a_1 = 10$\\
+$a_n = 6a_{n-1} + 24a_{n-2}$\\
+
+(c) \textbf{Generating Function:} We can get the generating function for the recurrence relation as follows:
+\begin{align*}
+    A(x) &= \sum_{n\geq 0} a_n x^n = \sum_{n \geq 2} (6a_{n-1}+24a_{n-2})x^n + a_0 + a_1 x\\
+    &= 6x(\sum_{n \geq 1} a_n x^n) + 24x^2(\sum_{n \geq 0} a_n x^n) + a_0 + a_1 x
+\end{align*}
+
+$A(x) = 6x(A(x) - 1) + 24x^2(A(x)) + 1 + 10x$\\
+$A(x)(1-6x-24x^2) = 1 + 10x - 6x = 1 + 4x$\\
+$$A(x)=\frac{1 + 4x}{1-6x-24x^2}$$
+
+For the closed form, we can use partial fractions. We get:
+$$A(x) = \frac{1 + 4x}{1-6x-24x^2} = \frac{A}{1-6x} + \frac{B}{1+4x}$$
+
+% Now, to get the closed form, we can use partial fractions. We get:
+% $$A(x) = \frac{10x}{(1-8x)(1+3x)} = \frac{A}{1-8x} + \frac{B}{1+3x}$$
+
+\newpage
+% We are given a board of size 4 × n and we wish to tile it with dominoes of size 2 × 1. Find the number of ways to tile the board as a function of n. Do the following, (a) Find a recurrence relation T(4, n) denoting the number of ways to tile a 4 × n board with 2 × 1 dominoes. (b) Find the initial conditions of the relation. (c) Find the closed form of T(4, n) using a generating function. (d) Verify your answer by computing it for n = 6.
+
+% Certainly! Let's delve deeper into the derivation of the recurrence relation for \( T(4, n) \), the number of ways to tile a 4 × n board with 2 × 1 dominoes, using the specific configurations mentioned in your detailed description. The configurations you provided help visualize how to extend smaller board tilings to create a 4 × n board. ### Detailed Analysis of Each Configuration: #### Basic Types (A, B, C, D, E): These configurations represent straightforward extensions of smaller boards: - **Type A**: Extending any 4 × (n-1) board results in a "type A" 4 × n tiling. Since any tiling of a 4 × (n-1) board can be extended by adding a single column of vertical dominoes, there are \( T(4, n-1) \) ways to achieve this. - **Types B, C, D, E**: Each of these types involves adding two columns of dominoes to a 4 × (n-2) board. Each type has its specific arrangement of dominoes to cover the two new columns: - **Type B** uses two vertical dominoes stacked on each other in both the new columns. - **Type C, D, and E** use variations of horizontal and vertical placements. - Since each can be uniquely extended from any 4 × (n-2) configuration, there are \( T(4, n-2) \) ways for each. #### Combined Types (F, G, H): These types represent more complex configurations where specific placements of dominoes in initial columns influence how the remaining board must be tiled: - **Type F**: Tiling starts with two horizontal dominoes in the center rows of the first two columns, which can only be followed by "type B" or "type F" configurations in 4 × (n-2) tilings, where the specific center domino arrangement matches. - **Type G**: Starts with two horizontal dominoes, one in the top row and one in the bottom row of the first two columns. It can be extended by "type A," "type C," or "type G" configurations in 4 × (n-2) tilings where the lower and upper placements allow for such extensions. - **Type H**: Starts with two vertical dominoes in the outer columns of the first two columns, extendable by "type A," "type D," or "type H" configurations in 4 × (n-2) tilings. ### Constructing the Recurrence Relation: Using these specific configurations and how they extend, the overall count of tilings for a 4 × n board, \( T(4, n) \), can be represented as: \[ T(4, n) = T(4, n-1) + 4T(4, n-2) + \text{(combinations of F, G, H)} \] - \( T(4, n-1) \) for type A (direct extension of 4 × (n-1)). - \( 4T(4, n-2) \) for types B, C, D, E (each a direct extension of 4 × (n-2)). - Combinations of F, G, H relate to more specific arrangements that we need to compute or infer from the tiling rules. To refine this further, the combinations of F, G, and H types need careful counting, as these configurations have dependencies on the arrangements of the previous columns and specific earlier tiles. In practical terms, these complex configurations require computing additional cases or using experimental methods to determine how they extend the smaller configurations. This recurrence captures the mathematical representation of all the ways to construct the 4 × n board using these domino configurations. Each configuration contributes uniquely to the full count, effectively counting all unique ways to cover the board using these dominos.
+% Types A through E are easy. Any 4×(𝑛−1) tiling can extend A to give a 4×𝑛 tiling, and there are no other ways to get a "type A" 4×𝑛 tiling. So there are 𝑓(𝑛−1) "type A" 4×𝑛 tilings. Similarly, there are 𝑓(𝑛−2) type B 4×𝑛 tilings, and 𝑓(𝑛−2) as well of each of the types C, D, and E. That's 𝑓(𝑛−1)+4𝑓(𝑛−2) so far. Tilings with starting configurations F, G, and H are a little harder to count. First define some helpful notation. Let 𝑓𝑇(𝑘) represent the number of 4×𝑘 tilings of type T, where T is a set of starting configurations. That lets us say from what we have above that 𝑓(𝑛)=𝑓(𝑛−1)+4𝑓(𝑛−2)+𝑓{𝐹,𝐺,𝐻}(𝑛). We just have to figure out 𝑓{𝐹,𝐺,𝐻}(𝑛) in terms of 𝑓 . Clearly 𝑓{𝐹,𝐺,𝐻}(𝑛)=𝑓{𝐹}(𝑛)+𝑓{𝐺}(𝑛)+𝑓{𝐻}(𝑛) ; we'll compute each term separately. Also take note of the fact that 𝑓(𝑘)=𝑓{𝐴,𝐵,𝐶,𝐷,𝐸,𝐹,𝐺,𝐻}(𝑘) . Now on to the counting. We'll look at type F first. A "type F" 4×(𝑛) tiling is always configuration F extended by a "type B" or "type F" 4×(𝑛−2) tiling that has its center left domino removed. So 𝑓𝐹(𝑛) is exactly the number of 4×(𝑛−2) "type B" or "type F" tilings, that is, 𝑓𝐹(𝑛)=𝑓{𝐵,𝐹}(𝑛−2) . (The type B and F tilings are exactly the ones that have a center left domino to remove.) A "type G" tiling is G extended by a tiling of type A, C, or G, with the lower left domino removed, so 𝑓𝐺(𝑛)=𝑓{𝐴,𝐶,𝐺}(𝑛−2) . (A, C, and G are the tiling types with a lower left domino.) A "type H" tiling is H extended by a tiling of type A, D, or H, with the upper left domino removed. So 𝑓𝐻(𝑛)=𝑓{𝐴,𝐷,𝐻}(𝑛−2) . (A, D, and H are the tiling with an upper left domino.) Substituting these last three expressions into the previous displayed equation yields 𝑓(𝑛)=𝑓(𝑛−1)+4𝑓(𝑛−2)+𝑓{𝐵,𝐹}(𝑛−2)+𝑓{𝐴,𝐷,𝐻}(𝑛−2)+𝑓{𝐴,𝐶,𝐺}(𝑛−2)=𝑓(𝑛−1)+4𝑓(𝑛−2)+𝑓{𝐴,𝐵,𝐶,𝐷,𝐹,𝐺,𝐻}(𝑛−2)+𝑓{𝐴}(𝑛−2)=𝑓(𝑛−1)+4𝑓(𝑛−2)+𝑓(𝑛−2)−𝑓{𝐸}(𝑛−2)+𝑓{𝐴}(𝑛−2)=𝑓(𝑛−1)+5𝑓(𝑛−2)+𝑓{𝐴}(𝑛−2)−𝑓{𝐸}(𝑛−2) Fortunately, A and E are the simplest patterns, and we know from our initial calculations (which we did before adopting the subscript notation on 𝑓 ) that 𝑓{𝐴}(𝑛−2)=𝑓(𝑛−3) and 𝑓{𝐸}(𝑛−2)=𝑓(𝑛−4) . These final calculations give the recurrence relation you asked about: 𝑓(𝑛)=𝑓(𝑛−1)+5𝑓(𝑛−2)+𝑓(𝑛−3)−𝑓(𝑛−4). I'll let someone else suggest good references for learning these techniques and just say experience helps. The hundredth one is a lot quicker to figure out than the first one!
+
+\item 
+
+(a) \textbf{Recurrence:} We want to find a recurrence relation for $T(4, n)$, the number of ways to tile a $4 \times n$ board with $2 \times 1$ dominoes.\\
+
+Now, we need to understand how to reduce the problem. By the figure below (found on math stackexchange), we can see that the possible ways to tile a $4 \times n$ board are by extending the possible ways to tile a $4 \times (n-1)$ board, or a $4 \times (n-2)$ board, or so on.\\
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{"../../stackoverflow".png}
+    \caption{Answer inspired from https://math.stackexchange.com/questions/664113/count-the-ways-to-fill-a-4-times-n-board-with-dominoes}
+\end{figure}
+
+So, we get the base cases depending on which "type" of a starting configuration we choose. Each of them alter the recurrence relation.
+\begin{itemize}
+    \item Type A: This represents $T(4, n-1)$
+    \item Type B: This represents $T(4, n-2)$
+    \item Type C: This represents $T(4, n-2)$
+    \item Type D: This represents $T(4, n-2)$
+    \item Type E: This represents $T(4, n-2)$
+\end{itemize}
+
+Now, as we see, we might start with patterns F, G, and H as well. Let that number be some $x(n)$. So, we have $T(4, n)$ as:
+$$T(4, n) = T(4, n-1) + 4T(4, n-2) + x(n)$$
+
+Now, we see that:\\
+Type G can only be extended by types A, C, or G, if the bottom left tile is removed.\\
+Type F can only be extended by types B or F, if the center left tile is removed.\\
+Type H can only be extended by types A, D, or H, if the top left tile is removed.\\
+
+So, we get that $x(n) = f(n)+g(n)+h(n)=b(n-2) + f(n-2) + a(n-2) + c(n-2) + g(n-2) + a(n-2) + d(n-2) + h(n-2)$.\\
+
+Thus, we get:
+\begin{align*}
+    T(4, n) =& T(4, n-1) + 4T(4, n-2) + b(n-2) + f(n-2) + a(n-2)+ c(n-2) + g(n-2) \\
+    &+ a(n-2) + d(n-2) + h(n-2) \\
+    =& T(4, n-1) + 4T(4, n-2) + (2a + b + c + +d + f + g + h)(n-2) \\
+    =& T(4, n-1) + 4T(4, n-2) + T(4, n-2) - e(n-2) + a(n-2) \\
+    =& T(4, n-1) + 4T(4, n-2) + T(4, n-2) - T(4, n-4) + T(4, n-3) \\
+\end{align*}
+So we get:
+$$T(n, 4)=T(4, n-1) + 5T(4, n-2)+T(4,n-3)-T(4,n-4)$$
+
+(b) \textbf{Initial Conditions}: At $n=0$, there is no way to tile the board, i.e, exactly 1 way. At $n=1$, there is 1 way to tile a $4 \times 1$ board, i.e, by placing 2 dominoes vertically. At $n=2$, there are 5 ways to tile a $4 \times 2$ board, as seen by the types above (the 5th one is 2 type As). At $n=3$, there are 11 ways to tile a $4 \times 3$ board, as found in the previous part. So, we get the initial conditions as:\\
+$T(4, 0) = 1$\\
+$T(4, 1) = 1$\\
+$T(4, 2) = 5$\\
+$T(4, 3) = 11$\\
+$T(n, 4)=T(4, n-1) + 5T(4, n-2)+T(4,n-3)-T(4,n-4)$\\
+
+(c) \textbf{Generating Function:} We can get the generating function for the recurrence relation as follows (denoting $T(4, n) \text{ as } a_n$):
+
+\begin{align*}
+    A(x) &= \sum_{n\geq 0} a_nx^n = \sum_{n \geq 4} a_n x^n + 1 + x + 5x^2 + 11x^3 = 1 + x + 5x^2 + 11x^3 + \sum_{n\geq 4} (a_{n-1} + 5a_{n-2} + a_{n-3} - a_{n-4})x^n\\
+    &=  1 + x + 5x^2 + 11x^3 + x\sum_{n\geq  4} a_{n-1}x^{n-1} + 5x^2\sum_{n\geq 4} a_{n-2}x^{n-2} + x^3\sum_{n\geq 4} a_{n-3}x^{n-3} - x^4\sum_{n\geq 4} a_{n-4}x^{n-4}\\
+    &= 1 + x + 5x^2 + 11x^3 + x(A(x) - 1 - x - 5x^2) + 5x^2(A(x) - 1 - x) + x^3(A(x) - 1) - x^4A(x)
+\end{align*}
+$A(x)(1-x-5x^2-x^3+x^4) = 1 + x + 5x^2 + 11x^3 - x - x^2 - 5x^3 - 5x^2 - 5x^3 - x^3 = 1 - x^2$
+$$A(x) = \frac{1-x^2}{1-x-5x^2-x^3+x^4}$$
+$=\sum_{n \geq 0} (2x)^n - \sum_{n \geq 0} {(n+1) x^n} = \sum_{n \geq 0} (2^n - n - 1)x^n$\\
+
+\newpage
+
+\item (a) $a_n = 3a_{n-1} + 4a_{n-2}, a_0 = 1, a_1 = 1$. We get the characteristic polynomial:
+\begin{align*}
+    x^2 - 3x - 4 &= 0\\
+    (x-4)(x+1) &= 0
+\end{align*}
+Thus we have:\\
+$a_n = \alpha 4^n + \beta (-1)^n$\\
+$n=0$: $1 = \alpha + \beta$\\
+$n=1$: $1 = 4\alpha - \beta$\\
+
+Solving these, we get $\alpha = \frac{2}{5}, \beta = \frac{3}{5}$. Thus, we get the closed form as:
+$$a_n = \frac{2}{5}4^n + \frac{3}{5}(-1)^n$$
+Proof:
+\begin{align*}
+    a_0 &= \frac{2}{5}4^0 + \frac{3}{5}(-1)^0 = 1\\
+    a_1 &= \frac{2}{5}4^1 + \frac{3}{5}(-1)^1 = 1\\
+    a_n &= 3a_{n-1} + 4a_{n-2} = 3(\frac{2}{5}4^{n-1} + \frac{3}{5}(-1)^{n-1}) + 4(\frac{2}{5}4^{n-2} + \frac{3}{5}(-1)^{n-2})\\
+    &= \frac{6}{5}4^{n-1} + \frac{9}{5}(-1)^{n-1} + \frac{8}{5}4^{n-2} + \frac{12}{5}(-1)^{n-2}\\
+    &= \frac{6}{5}4^{n-1} + \frac{2}{5}4^{n-1} + \frac{9}{5}(-1)^{n-1} - \frac{12}{5}(-1)^{n-1}\\
+    &= \frac{8}{5}4^{n-1} - \frac{3}{5}(-1)^{n-1}\\
+    &= \frac{2}{5}4^n + \frac{3}{5}(-1)^n\\
+    &= a_n
+\end{align*}
+
+(b) For this recurrence, we will solve 2 recurrences, say $b_n$ and $h_n$. $b_n$ similar to $a_n$.\\
+
+$b_n = P + Qn + Rn^2 + Sn^3$\\
+Now, we also have that $b_n = 2b_{n-1} + 7n^3$. So, we get:\\
+$b_{n+1} = 2b_n + 7(n+1)^3$\\
+\begin{align*}
+P + Q(n+1)+R(n+1)^2 + S(n+1)^3 - 2(P + Qn + Rn^2 + Sn^3) - 7(n+1)^3 &= 7(n+1)^3\\
+P + Qn + Q + R(n^2 + 2n + 1) + S(n^3 + 3n^2 + 3n + 1) - 2P - 2Qn - 2Rn^2 -2Sn^3 &= 7(n+1)^3
+\end{align*}
+
+Now, we need to solve our system of equations for different n. We have 4 unknowns, so we use $n= 0, 1, 2, 3$:
+
+\begin{align*}
+    P - Q - R - S &= -7\\
+    P + 0 - 2R -6S &= -56\\
+    P + Q - R - 11S &= -189\\
+    P + 2Q + 2R - 10S &= -448
+\end{align*}
+Solving, we get $P = -182, Q=-126, R=-42, S=-7$. So, we get the closed form as:
+$$b_n = -182 - 126n - 42n^2 - 7n^3$$
+
+Now, solving for $h_n$:
+$h_n = 2h_{n-1}$\\
+$h_n = \alpha 2^n$\\
+
+So, we get the closed form as:
+$$a_n = b_n + h_n = -182 - 126n - 42n^2 - 7n^3 + \alpha  2^n$$\\
+Now, we know that $a_0 = 2$. At $n=0$:\\
+$2 = \alpha - 182$, so $\alpha = 184$.\\
+
+Thus, we get the closed form as:
+$$a_n = -182 - 126n - 42n^2 - 7n^3 + 184  2^n$$
+
+\newpage
+
+\end{enumerate} 
+
+\section{$\neg$ Straightforward}
+\begin{enumerate}
+\item (a) This is an application of derangements. A derangement is a permutation of a set such that no element appears in its original position. More formally, in the permutation $\pi$, there is no fixed point, s.t $\pi (i) = i$.\\
+
+We know that the total number of permutations is $n!$. Now, we want to find the number of derangements. Let $D_n$ be the number of derangements of a set of size $n$. To find the number of derangements, we need to subtract from the total permutations those permutations where at least one element is in its original position. So, we:
+\begin{itemize}
+    \item Subtract permutations where at least 1 element is fixed. There are $n\choose 1$ ways to choose 1 fixed item, and $(n-1)!$ ways to arrange the rest of the $n-1$ items.
+    \item However, we subtracted permutations with two fixed points multiple times. So, we must add them back. We have $n\choose 2$ ways to choose 2 fixed items, and $(n-2)!$ ways to arrange the rest of the $n-2$ items.
+    \item We can now subtract permutations with 3 fixed points, and add back permutations with 4 fixed points, and so on.
+\end{itemize}
+
+So, we get:\\
+$D_n = (\frac{n!}{0!} - \frac{n!}{1!} + \frac{n!}{2!} - \ldots  + \frac{n! (-1)^n}{0!}) = n!(\frac{1}{0!} -\frac{n!}{1!} + \ldots + \frac{(-1)^n}{n!})$\\
+
+(b) At $n=7$, let's say we pick a random menu. There are $7!$ ways to arrange the menu. Now, we want to find the number of derangements. We get:\\
+$D_7 = 7!(\frac{1}{0!} -\frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \frac{1}{4!} - \frac{1}{5!} + \frac{1}{6!} - \frac{1}{7!})$\\
+$D_7 = 1854$\\
+
+Now, the chance that it is valid is $\frac{D_7}{7!} = \frac{1854}{5040} = \frac{309}{840} = 0.367857143$\\
+So the probability that the menu is valid is approx. $36.8\%$.
+
+\item We want to find Ducas numbers, which are given by the product of the generatic function of lucas numbers. I.e:
+$$D(x) = L(x) \times L(x)$$
+Where $D(x)$ is the generating function for ducas numbers. So, we have that:
+\begin{align*}
+    d_n = \sum_{k=0}^{n} l_k \times l_{n-k}
+\end{align*}
+Where $d_n$ and $l_n$ are the $n$th ducas and lucas numbers respectively. We also know that the closed form of lucas numbers, as done in the DS. So, we can get the closed form of ducas numbers as well.
+\begin{align*}
+    l_n = \left(\frac{1- \sqrt 5}{2}\right)^n + \left(\frac{1+ \sqrt 5}{2}\right)^n = \alpha^n + \beta^n
+\end{align*}
+So, for the closed form of ducas numbers, we get:
+\begin{align*}
+    d_n &= \sum_{k=0}^{n} \left( \alpha^k + \beta^k\right)\left( \alpha^{n-k} + \beta^{n-k}\right)\\
+    &= \sum_{k=0}^{n} \left( \alpha^{n} + \beta^{n} + \alpha^{k}\beta^{n-k} + \beta^{k}\alpha^{n-k}\right)\\
+\end{align*}
+
+\end{enumerate} 
+
+\newpage
+
+\section{Bonus}
+
+We know the general form of the extended binomial as:
+$$
+(a+b)^r = \sum_{k=0}^{r} {r \choose k} a^{r-k} b^k
+$$
+
+Now, substituting $a = 1, b = x, r = -n$, we get:
+$$
+(1+x)^{-n} = \sum_{k=0}^{-n} {{-n}\choose k} x^{k}
+$$
+
+We can now expand the extended binomial coefficient. Also, as the sum is from $0$ to $-n$, we can rewrite it as:
+$$
+(1+x)^{-n} = \sum_{k=0}^{\infty} {{-n}\choose k} x^{k} = \sum_{k=0}^{\infty} \frac{(-n)(-n-1)(-n-2)\ldots(-n-k+1)}{k!} x^{k}
+$$
+
+Thus, our generating function $G(x)$ is given by:
+\begin{align*}
+    G(x) = \sum_{k \geq 0} \frac{(-1)^k n(n+1)\ldots(n+k-1)}{k!}x^k
+\end{align*}
+
+
+\end{document}
